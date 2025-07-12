@@ -1,56 +1,55 @@
-import { ChangeEvent, Component } from 'react';
-import { InputSearch } from '../inputs/InputSearch/InputSearch.tsx';
-import { Button, ButtonStyle } from '../Button/Button.tsx';
-import { getPets } from '../../api-repositories/pets/pets.ts';
-import { SEARCH_TERM_KEY } from '../../constants.ts';
-import { formatSearchInput } from '../../utils/formatSearchInput.ts';
-import { Pet } from '../../types/pet.ts';
+import './TopControls.css';
+import {ChangeEvent, Component, FormEventHandler} from 'react';
+import {InputSearch} from '../inputs/InputSearch/InputSearch.tsx';
+import {Button, ButtonStyle, ButtonType} from '../Button/Button.tsx';
 
 interface TopControlsProps {
-  inputSearchTerm: string;
-  handleInputSearch: (value: string) => void;
-  handleButtonSearchClick: (value: Pet[]) => void;
+  initialSearchTerm: string;
+  isLoading: boolean;
+  onSearchTermChange: (searchTerm: string) => void;
 }
 
 interface TopControlsState {
-  isLoading: boolean;
+  searchTerm: string;
 }
 
-const initTopControlsState: TopControlsState = {
-  isLoading: false,
-};
+const INPUT_PLACEHOLDER = 'Search by name';
 
-export class TopControls extends Component<TopControlsProps> {
-  state = initTopControlsState;
+export class TopControls extends Component<TopControlsProps, TopControlsState> {
+
+  constructor(props: TopControlsProps) {
+    super(props);
+
+    this.state ={
+      searchTerm: props.initialSearchTerm,
+    }
+  }
 
   render() {
-    const { inputSearchTerm, handleInputSearch, handleButtonSearchClick } = this.props;
-
-    const handleBtnClick = async () => {
-      if (localStorage.getItem(SEARCH_TERM_KEY) === inputSearchTerm) {
-        return;
-      }
-
-      this.setState({ isLoading: true });
-
-      const pets = await getPets({ name: formatSearchInput(inputSearchTerm) });
-      this.setState({ isLoading: false });
-      localStorage.setItem(SEARCH_TERM_KEY, inputSearchTerm);
-      handleButtonSearchClick(pets);
+    const handleBtnClick: FormEventHandler<HTMLFormElement> = (event) => {
+      event.preventDefault();
+      this.props.onSearchTermChange(this.state.searchTerm);
     };
 
     const handleInputChanges = (event: ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value;
-      handleInputSearch(value);
+      this.setState({
+        ...this.state,
+        searchTerm:  event.target.value,
+      })
     };
 
     return (
-      <div>
-        <InputSearch value={inputSearchTerm} onChange={handleInputChanges} />
-        <Button onClick={handleBtnClick} style={ButtonStyle.Primary} isDisabled={this.state.isLoading}>
+      <form className="top-controls" onSubmit={handleBtnClick}>
+        <InputSearch
+            value={this.state.searchTerm}
+            onChange={handleInputChanges}
+            id="search-input"
+            placeholder={INPUT_PLACEHOLDER}
+            isDisabled={this.props.isLoading}/>
+        <Button style={ButtonStyle.Primary} isDisabled={this.props.isLoading} type={ButtonType.Submit}>
           Search
         </Button>
-      </div>
+      </form>
     );
   }
 }
