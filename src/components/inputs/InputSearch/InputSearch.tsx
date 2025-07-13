@@ -12,6 +12,15 @@ interface InputSearchProps {
 export class InputSearch extends Component<InputSearchProps> {
   render() {
     const { onChange, value, id, placeholder = '', isDisabled = false } = this.props;
-    return <Input id={id} onChange={onChange} type={InputType.Search} value={value} placeholder={placeholder} isDisabled={isDisabled}/>;
+    return (
+      <Input
+        id={id}
+        onChange={onChange}
+        type={InputType.Search}
+        value={value}
+        placeholder={placeholder}
+        isDisabled={isDisabled}
+      />
+    );
   }
 }

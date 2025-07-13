@@ -6,21 +6,21 @@
   --white-color: #ffffff;
 
   --font-color-primary: #292420;
-  --font-color-secondary: #646A5E;
+  --font-color-secondary: #646a5e;
 
   --color-warning: #f72a2a;
   --color-success: #329f42;
 
-  --bg-color-main: #EBE6DC;
-  --bg-color-light-main: #EFEBE3;
+  --bg-color-main: #ebe6dc;
+  --bg-color-light-main: #efebe3;
 
-  --border-color: #D8D3C9;
+  --border-color: #d8d3c9;
   --border-radius-s: 8px;
   --border-radius-m: 24px;
 
-  --color-accent-primary: #D89B47;
-  --color-accent-secondary: #61922C;
-  --color-disabled: #ACB89F;
+  --color-accent-primary: #d89b47;
+  --color-accent-secondary: #61922c;
+  --color-disabled: #acb89f;
 
   --shadow: 0 0 23px 0 rgba(214, 171, 84, 0.2);
 }

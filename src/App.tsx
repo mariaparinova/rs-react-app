@@ -10,7 +10,7 @@ import { getPets } from './api-repositories/pets/pets.ts';
 import { formatSearchInput } from './utils/formatSearchInput.ts';
 import { Spinner } from './components/Spinner/Spinner.tsx';
 
-type Props = {};
+type Props = Record<string, never>;
 
 interface State {
   searchTerm: string;
@@ -50,7 +50,7 @@ export class App extends Component<Props, State> {
     if (this.state.searchTerm !== prevState.searchTerm) {
       localStorage.setItem(SEARCH_TERM_KEY, this.state.searchTerm);
 
-      this.fetchPets({ name: this.state.searchTerm})
+      this.fetchPets({ name: this.state.searchTerm });
     }
   }
 
@@ -82,11 +82,11 @@ export class App extends Component<Props, State> {
     );
   }
 
-  private async fetchPets(props: {name: string, offset?: number, limit?: number}): Promise<void> {
+  private async fetchPets(props: { name: string; offset?: number; limit?: number }): Promise<void> {
     this.setState({ ...this.state, isLoading: true });
 
     try {
-      const pets = await getPets({...props, name: formatSearchInput(props.name)});
+      const pets = await getPets({ ...props, name: formatSearchInput(props.name) });
 
       this.setState({
         ...this.state,

@@ -1,5 +1,5 @@
 import './Button.css';
-import {Component, MouseEventHandler, ReactNode} from 'react';
+import { Component, MouseEventHandler, ReactNode } from 'react';
 
 export enum ButtonStyle {
   Primary = 'primary',

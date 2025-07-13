@@ -13,16 +13,24 @@ type InputProps = {
   type?: InputType;
   placeholder?: string;
   isDisabled?: boolean;
-}
+};
 
 export class Input extends Component<InputProps> {
   render() {
     const { onChange, type = InputType.Text, value, id, placeholder = '', isDisabled = false } = this.props;
     return (
-        <>
-          <label htmlFor={id}></label>
-          <input placeholder={placeholder} id={id} className='input' type={type} onChange={onChange} value={value} disabled={isDisabled} />
-        </>
+      <>
+        <label htmlFor={id}></label>
+        <input
+          placeholder={placeholder}
+          id={id}
+          className="input"
+          type={type}
+          onChange={onChange}
+          value={value}
+          disabled={isDisabled}
+        />
+      </>
     );
   }
 }

@@ -10,21 +10,21 @@
   border-radius: var(--border-radius-s);
   cursor: pointer;
   transition:
-          background-color 0.3s,
-          color 0.3s,
-          border 0.3s;
+    background-color 0.3s,
+    color 0.3s,
+    border 0.3s;
 
   &:disabled {
     cursor: default;
   }
 
   &.primary {
-    background-color: #53792B;
+    background-color: #53792b;
     color: var(--white-color);
     border: none;
 
     &:hover {
-      background-color: #648B3A;
+      background-color: #648b3a;
     }
 
     &:disabled {
@@ -34,12 +34,12 @@
 
   &.secondary {
     background-color: var(--bg-color-main);
-    color:  #53792B;
-    border: 2px solid #53792B;
+    color: #53792b;
+    border: 2px solid #53792b;
 
     &:hover {
-      color: #6DA435;
-      border: 2px solid #6DA435;
+      color: #6da435;
+      border: 2px solid #6da435;
     }
 
     &:disabled {
@@ -48,4 +48,3 @@
     }
   }
 }
-
