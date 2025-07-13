@@ -98,7 +98,10 @@ export class App extends Component<Props, State> {
         ...this.state,
         isLoading: false,
       });
-      console.warn(`Error during fetching pets: ${error}`);
+
+      this.setState({ ...this.state, isError: true });
+
+      if (error instanceof Error) console.warn(`Error: ${error.message}`);
     }
   }
 

@@ -30,6 +30,11 @@ export const getPets = async (params: GetPetsParams): Promise<Pet[]> => {
   }
 
   const response = await fetch(`${url}?${queryParams}`, options);
+
+  if (response.status !== 200) {
+    throw new Error('Error during fetching pets');
+  }
+
   const responseBody: GetPetsBody = await response.json();
 
   return responseBody.animals.map((petDto) => convertPetDtoToPet(petDto));
