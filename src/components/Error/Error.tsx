@@ -1,5 +1,6 @@
-import { Component, ReactNode } from 'react';
-import { Button } from '../Button/Button.tsx';
+import './Error.css';
+import {Component, ReactNode} from 'react';
+import {Button, ButtonStyle} from '../Button/Button.tsx';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -27,10 +28,10 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps> {
 
     if (hasError) {
       return (
-        <div>
+        <div className="error">
           <h3>Error</h3>
           <div>Oops! Something went wrong.</div>
-          <Button onClick={() => this.setState({ hasError: false })}>Go back</Button>
+          <Button  style={ButtonStyle.Primary} isDisabled={false} onClick={() => this.setState({ hasError: false })}>Go back</Button>
         </div>
       );
     }

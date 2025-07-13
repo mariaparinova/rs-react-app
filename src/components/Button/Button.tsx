@@ -1,32 +1,32 @@
-import { Component, ReactNode } from 'react';
+import './Button.css';
+import {Component, MouseEventHandler, ReactNode} from 'react';
 
 export enum ButtonStyle {
   Primary = 'primary',
   Secondary = 'secondary',
 }
 
-interface ButtonProps {
-  onClick: () => void;
-  children: ReactNode;
-  style?: ButtonStyle;
-  isDisabled?: boolean;
+export enum ButtonType {
+  Button = 'button',
+  Submit = 'submit',
+  Reset = 'reset',
 }
 
-const commonBtnClassName = 'pt-1 pb-1 pl-4 pr-4 rounded-sm';
-const primaryBtnClassName = ' bg-lime-300';
-const secondaryBtnClassName = ' border-2 border-lime-300';
+interface ButtonProps {
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  children: ReactNode;
+  style: ButtonStyle;
+  isDisabled: boolean;
+  className?: string;
+  type?: ButtonType;
+}
 
 export class Button extends Component<ButtonProps> {
   render() {
-    const { onClick, children, style = ButtonStyle.Primary, isDisabled } = this.props;
-
-    const className =
-      style === ButtonStyle.Primary
-        ? commonBtnClassName + primaryBtnClassName
-        : commonBtnClassName + secondaryBtnClassName;
+    const { onClick, children, style, isDisabled, className = '', type = ButtonType.Button } = this.props;
 
     return (
-      <button className={className} onClick={onClick} disabled={isDisabled}>
+      <button className={`button ${style} ${className}`} onClick={onClick} disabled={isDisabled} type={type}>
         {children}
       </button>
     );

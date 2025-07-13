@@ -1,3 +1,4 @@
+import './Table.css';
 import { Component } from 'react';
 
 interface TableProps {
@@ -10,7 +11,7 @@ export class Table extends Component<TableProps> {
     const { columnNames, tableData } = this.props;
 
     return (
-      <table>
+      <table className="table">
         <thead>
           <tr>
             {columnNames.map((col) => (

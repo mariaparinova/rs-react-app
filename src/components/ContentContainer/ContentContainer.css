@@ -1,0 +1,10 @@
+.content-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 12px;
+  width: 80%;
+  background-color: var(--bg-color-main);
+  border-radius: var(--border-radius-m);
+}

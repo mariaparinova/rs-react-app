@@ -1,3 +1,4 @@
+import './ContentContainer.css';
 import { Component, ReactNode } from 'react';
 
 interface MainProps {
