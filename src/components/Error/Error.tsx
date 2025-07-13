@@ -1,43 +1,31 @@
 import './Error.css';
 import { Component, ReactNode } from 'react';
-import { Button, ButtonStyle } from '../Button/Button.tsx';
 
-interface ErrorBoundaryState {
+interface State {
   hasError: boolean;
 }
 
-interface ErrorBoundaryProps {
+interface Props {
   children: ReactNode;
+  fallback: ReactNode;
 }
 
-const initState: ErrorBoundaryState = {
-  hasError: false,
-};
+export class ErrorBoundary extends Component<Props, State> {
+  state = { hasError: false };
 
-export class ErrorBoundary extends Component<ErrorBoundaryProps> {
-  state: ErrorBoundaryState = initState;
+  static getDerivedStateFromError(error: unknown): State {
+    if (!(error instanceof Error)) {
+      console.warn(`Error in not instanceof Error: ${error}`);
+    }
 
-  static getDerivedStateFromError(error: unknown) {
-    console.error('Rendering error:', error);
     return { hasError: true };
   }
 
   render() {
-    const { hasError } = this.state;
-    const { children } = this.props;
-
-    if (hasError) {
-      return (
-        <div className="error">
-          <h3>Error</h3>
-          <div>Oops! Something went wrong.</div>
-          <Button style={ButtonStyle.Primary} isDisabled={false} onClick={() => this.setState({ hasError: false })}>
-            Go back
-          </Button>
-        </div>
-      );
+    if (this.state.hasError) {
+      return this.props.fallback;
     }
 
-    return children;
+    return this.props.children;
   }
 }

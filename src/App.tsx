@@ -16,14 +16,14 @@ interface State {
   searchTerm: string;
   pets: Pet[] | undefined;
   isLoading: boolean;
-  isError: boolean;
+  shouldThrowError: boolean;
 }
 
 const initialAppState: State = {
   searchTerm: localStorage.getItem(SEARCH_TERM_KEY) || '',
   pets: undefined,
   isLoading: false,
-  isError: false,
+  shouldThrowError: false,
 };
 
 export class App extends Component<Props, State> {
@@ -38,7 +38,7 @@ export class App extends Component<Props, State> {
       searchTerm,
       pets: undefined,
       isLoading: false,
-      isError: false,
+      shouldThrowError: false,
     };
   }
 
@@ -55,7 +55,7 @@ export class App extends Component<Props, State> {
   }
 
   render() {
-    if (this.state.isError) {
+    if (this.state.shouldThrowError) {
       throw new Error('Just a test! This error was thrown on purpose to check error handling');
     }
 
@@ -68,10 +68,16 @@ export class App extends Component<Props, State> {
         ></TopControls>
         <ContentContainer>
           {this.state.isLoading && <Spinner />}
-          <Table columnNames={['Id', 'Name']} tableData={this.state.pets || []}></Table>
+          {this.state.pets?.length === 0 ? (
+            <div>No pets found</div>
+          ) : (
+            <Table columnNames={['Id', 'Name']} tableData={this.state.pets || []}></Table>
+          )}
         </ContentContainer>
         <Button
-          onClick={() => this.setState({ ...this.state, isError: true })}
+          onClick={() => {
+            this.setState({ ...this.state, shouldThrowError: true });
+          }}
           style={ButtonStyle.Secondary}
           isDisabled={this.state.isLoading}
           className="throw-error-btn"
@@ -99,7 +105,7 @@ export class App extends Component<Props, State> {
         isLoading: false,
       });
 
-      this.setState({ ...this.state, isError: true });
+      this.setState({ ...this.state, shouldThrowError: true });
 
       if (error instanceof Error) console.warn(`Error: ${error.message}`);
     }

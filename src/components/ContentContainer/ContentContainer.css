@@ -3,8 +3,8 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 12px;
-  width: 80%;
+  padding: 20px;
+  width: 100%;
   background-color: var(--bg-color-main);
-  border-radius: var(--border-radius-m);
+  border: 1px solid var(--border-color);
 }
