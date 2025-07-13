@@ -1,0 +1,14 @@
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 24px;
+  margin: auto;
+  padding: 3em 4em;
+  height: 100vh;
+  max-width: 736px;
+  color: var(--font-color-primary);
+  font-family: var(--font-family-Roboto);
+  background-color: var(--bg-color-main);
+}

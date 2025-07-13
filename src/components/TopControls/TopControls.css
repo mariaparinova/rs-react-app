@@ -1,0 +1,10 @@
+.top-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+
+  .input {
+    flex-grow: 1;
+  }
+}
