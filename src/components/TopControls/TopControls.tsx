@@ -13,8 +13,6 @@ interface TopControlsState {
   searchTerm: string;
 }
 
-const INPUT_PLACEHOLDER = 'Search by name';
-
 export class TopControls extends Component<TopControlsProps, TopControlsState> {
   constructor(props: TopControlsProps) {
     super(props);
@@ -40,11 +38,11 @@ export class TopControls extends Component<TopControlsProps, TopControlsState> {
     return (
       <form className="top-controls" onSubmit={handleBtnClick} data-testid="top-controls">
         <InputSearch
-          value={this.state.searchTerm}
-          onChange={handleInputChanges}
           id="search-input"
-          placeholder={INPUT_PLACEHOLDER}
+          placeholder="Search by name"
+          value={this.state.searchTerm}
           isDisabled={this.props.isLoading}
+          onChange={handleInputChanges}
         />
         <Button style={ButtonStyle.Primary} isDisabled={this.props.isLoading} type={ButtonType.Submit}>
           Search

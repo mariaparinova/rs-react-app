@@ -7,7 +7,7 @@ import { ErrorBoundary } from './components/Error/Error.tsx';
 const fallbackErrorElement = (
   <div className="error">
     <h3>Error</h3>
-    <div>Oops! Something went wrong.</div>
+    <div>Oops! Something went wrong</div>
   </div>
 );
 

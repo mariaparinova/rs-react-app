@@ -42,7 +42,7 @@ describe('<Input>', () => {
     });
   });
 
-  test('checks that onChange is called when Input typed', async () => {
+  test('checks onChange is called when Input typed', async () => {
     // ARRANGE
     const onChangeHandler = vi.fn();
 

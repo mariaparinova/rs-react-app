@@ -2,9 +2,11 @@
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 20px;
   width: 100%;
+  min-height: 414px;
   background-color: var(--bg-color-main);
   border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-s);
 }

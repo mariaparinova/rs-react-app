@@ -1,7 +1,9 @@
 import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import { describe, expect, test, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import { App } from './App.tsx';
+import { App, SEARCH_TERM_KEY } from './App.tsx';
+import { ErrorBoundary } from './components/Error/Error.tsx';
+import { getPets } from './api-repositories/pets/pets.ts';
 
 const pets = [
   {
@@ -48,12 +50,7 @@ const pets = [
 
 vi.mock('./api-repositories/pets/pets.ts', () => {
   return {
-    getPets: vi.fn(
-      () =>
-        new Promise((resolve) => {
-          setTimeout(() => resolve(pets), 500);
-        })
-    ),
+    getPets: vi.fn(() => Promise.resolve(pets)),
   };
 });
 
@@ -62,109 +59,177 @@ describe('<App>', () => {
     vi.clearAllMocks();
   });
 
-  test('checks that App contains Top controls element', () => {
-    // ACT
-    render(<App />);
+  describe('Top controls', () => {
+    test('checks App renders Top controls element', async () => {
+      // ACT
+      render(<App />);
 
-    // ASSERT
-    const topControls = screen.getByTestId('top-controls');
-    expect(topControls).toBeInTheDocument();
-  });
-
-  test('checks that after clicking on the search button value from search input is stored in local storage', async () => {
-    // ARRANGE
-    localStorage.clear();
-
-    // ACT
-    render(<App />);
-    const input = screen.getByPlaceholderText('Search by name');
-
-    await waitFor(() => {
-      expect(input).not.toBeDisabled();
+      // ASSERT
+      await waitFor(() => {
+        expect(screen.getByTestId('top-controls')).toBeInTheDocument();
+      });
     });
 
-    await userEvent.type(input, 'test value');
-    await userEvent.click(screen.getByRole('button', { name: 'Search' }));
+    test('checks that after clicking on the search button value from search input is stored in local storage', async () => {
+      // ARRANGE
+      localStorage.removeItem(SEARCH_TERM_KEY);
 
-    // ASSERT
-    expect(localStorage.getItem('searchTerm')).toBe('test value');
+      // ACT
+      render(<App />);
+      const input = screen.getByPlaceholderText('Search by name');
+
+      await waitFor(() => {
+        expect(input).not.toBeDisabled();
+      });
+      await userEvent.type(input, 'test value');
+      await userEvent.click(screen.getByRole('button', { name: 'Search' }));
+
+      // ASSERT
+      expect(localStorage.getItem(SEARCH_TERM_KEY)).toBe('test value');
+    });
+
+    test('checks input and button are disabled during fetching', () => {
+      // ARRANGE
+      vi.mocked(getPets).mockImplementationOnce(() => new Promise(() => {}));
+
+      // ACT
+      render(<App />);
+
+      // ASSERT
+      const input = screen.getByPlaceholderText('Search by name');
+      const button = screen.getByRole('button', { name: 'Search' });
+
+      expect(input).toBeDisabled();
+      expect(button).toBeDisabled();
+    });
   });
 
-  test('checks that App renders Spinner during fetching', async () => {
-    // ACT
-    render(<App />);
-    const input = screen.getByPlaceholderText('Search by name');
-    await userEvent.type(input, 'test value');
-    await userEvent.click(screen.getByRole('button', { name: 'Search' }));
+  describe('Content container', () => {
+    test('checks App contains Content container element', async () => {
+      // ACT
+      render(<App />);
 
-    // ASSERT
-    const spinner = screen.getByRole('heading', { name: 'Loading...' });
-    expect(spinner).toBeInTheDocument();
+      // ASSERT
+      await waitFor(() => {
+        expect(screen.getByTestId('content-container')).toBeInTheDocument();
+      });
+    });
+
+    test('checks App renders Spinner in initial render', async () => {
+      // ACT
+      render(<App />);
+
+      // ASSERT
+      await waitFor(() => {
+        const spinner = screen.getByRole('heading', { name: 'Loading...' });
+        expect(spinner).toBeInTheDocument();
+      });
+    });
+
+    test('checks App renders Spinner during fetching', async () => {
+      // ACT
+      render(<App />);
+      const input = screen.getByPlaceholderText('Search by name');
+      await waitFor(() => {
+        expect(input).not.toBeDisabled();
+      });
+      await userEvent.type(input, 'test value');
+
+      vi.mocked(getPets).mockImplementationOnce(() => new Promise(() => {}));
+      await userEvent.click(screen.getByRole('button', { name: 'Search' }));
+
+      // ASSERT
+      const spinner = screen.getByRole('heading', { name: 'Loading...' });
+      expect(spinner).toBeInTheDocument();
+    });
+
+    test('checks Spinner is removed after fetching', async () => {
+      // ACT
+      render(<App />);
+      const spinner = screen.getByRole('heading', { name: 'Loading...' });
+
+      // ASSERT
+      expect(spinner).toBeInTheDocument();
+      await waitForElementToBeRemoved(spinner);
+    });
+
+    test('checks App contains Pet cards element', async () => {
+      // ACT
+      render(<App />);
+
+      // ASSERT
+      await waitFor(() => {
+        expect(screen.getByText(pets[0].name)).toBeInTheDocument();
+      });
+      await waitFor(() => {
+        expect(screen.getByText(pets[3].name)).toBeInTheDocument();
+      });
+    });
+
+    test('checks that in case any pets was not found "No pets found" message is shown', async () => {
+      // ARRANGE
+      vi.mocked(getPets).mockImplementationOnce(() => Promise.resolve([]));
+
+      // ACT
+      render(<App />);
+
+      // ASSERT
+      await waitFor(() => {
+        expect(screen.getByText('No pets found')).toBeInTheDocument();
+      });
+    });
   });
 
-  test('checks that App renders Spinner in initial render', async () => {
-    // ACT
-    render(<App />);
+  describe('Error button', () => {
+    test('checks App renders Error button', async () => {
+      // ACT
+      render(<App />);
 
-    // ASSERT
-    const spinner = screen.getByRole('heading', { name: 'Loading...' });
-    expect(spinner).toBeInTheDocument();
-  });
+      // ASSERT
+      await waitFor(() => {
+        const errButton = screen.getByRole('button', { name: 'Throw error' });
+        expect(errButton).toBeInTheDocument();
+      });
+    });
 
-  test('checks that inputs and buttons are disabled during fetching', async () => {
-    // ACT
-    render(<App />);
-    const input = screen.getByPlaceholderText('Search by name');
-    await userEvent.type(input, 'test value');
-    await userEvent.click(screen.getByRole('button', { name: 'Search' }));
+    test('checks error button is disabled during fetching', async () => {
+      // ACT
+      render(<App />);
 
-    // ASSERT
-    const buttonSearch = screen.getByRole('button', { name: 'Search' });
-    const buttonError = screen.getByRole('button', { name: 'Throw error' });
+      // ASSERT
+      await waitFor(() => {
+        const button = screen.getByRole('button', { name: 'Throw error' });
+        expect(button).toBeDisabled();
+      });
+    });
 
-    expect(input).toBeDisabled();
-    expect(buttonSearch).toBeDisabled();
-    expect(buttonError).toBeDisabled();
-  });
+    test('checks App renders Error page after clicking on error button', async () => {
+      // ARRANGE
+      const fallbackErrorElement = (
+        <div className="error">
+          <h3>Error</h3>
+          <div>Oops! Something went wrong</div>
+        </div>
+      );
 
-  test('checks that Spinner is removed after fetching', async () => {
-    // ACT
-    render(<App />);
-    const spinner = screen.getByRole('heading', { name: 'Loading...' });
-    await waitForElementToBeRemoved(spinner);
+      // ACT
+      render(
+        <ErrorBoundary fallback={fallbackErrorElement}>
+          <App />
+        </ErrorBoundary>
+      );
 
-    // ASSERT
-    expect(spinner).not.toBeInTheDocument();
-  });
+      const errorButton = screen.getByRole('button', { name: 'Throw error' });
 
-  test('checks that App contains Content container element', async () => {
-    // ACT
-    render(<App />);
-    const spinner = screen.getByRole('heading', { name: 'Loading...' });
-    await waitForElementToBeRemoved(spinner);
+      await waitFor(() => {
+        expect(errorButton).not.toBeDisabled();
+      });
+      await userEvent.click(errorButton);
 
-    // ASSERT
-    const contentContainer = screen.getByTestId('content-container');
-    expect(contentContainer).toBeInTheDocument();
-  });
-
-  test('checks that App contains Table element', async () => {
-    // ACT
-    render(<App />);
-    const spinner = screen.getByRole('heading', { name: 'Loading...' });
-    await waitForElementToBeRemoved(spinner);
-
-    // ASSERT
-    const table = screen.getByRole('table', { name: 'pets list' });
-    expect(table).toBeInTheDocument();
-  });
-
-  test('checks that App renders Error button', async () => {
-    // ACT
-    render(<App />);
-    const errButton = screen.getByRole('button', { name: 'Throw error' });
-
-    // ASSERT
-    expect(errButton).toBeInTheDocument();
+      // ASSERT
+      await waitFor(() => {
+        expect(screen.getByRole('heading', { name: 'Error' })).toBeInTheDocument();
+      });
+    });
   });
 });
