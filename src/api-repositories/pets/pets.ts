@@ -6,16 +6,16 @@ const BASE_URL = 'https://stapi.co/api';
 const AMOUNT_OF_ITEMS_PER_PAGE = 10;
 
 export const getPets = async (params: GetPetsParams): Promise<Pet[]> => {
-  const { name, offset = 0, limit = AMOUNT_OF_ITEMS_PER_PAGE } = params;
+  const { name, pageNumber = 1, pageSize = AMOUNT_OF_ITEMS_PER_PAGE } = params;
   const url = `${BASE_URL}/v1/rest/animal/search`;
   const queryParams = new URLSearchParams();
 
-  if (offset) {
-    queryParams.append('pageNumber', `${offset}`);
+  if (pageNumber) {
+    queryParams.append('pageNumber', `${pageNumber - 1}`);
   }
 
-  if (limit) {
-    queryParams.append('pageSize', `${limit}`);
+  if (pageSize) {
+    queryParams.append('pageSize', `${pageSize}`);
   }
 
   const options: RequestInit = {

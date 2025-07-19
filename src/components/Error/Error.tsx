@@ -15,7 +15,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   static getDerivedStateFromError(error: unknown): State {
     if (!(error instanceof Error)) {
-      console.warn(`Error in not instanceof Error: ${error}`);
+      console.warn(`Error is not instanceof Error: ${error}`);
     }
 
     return { hasError: true };

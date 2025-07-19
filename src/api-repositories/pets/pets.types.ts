@@ -1,17 +1,17 @@
 export interface GetPetsParams {
   name?: string;
-  offset?: number;
-  limit?: number;
+  pageNumber?: number;
+  pageSize?: number;
 }
 
 export interface PetDto {
   uid: string;
   name: string;
-  earthAnimal: true;
-  earthInsect: false;
-  avian: false;
-  canine: false;
-  feline: false;
+  earthAnimal: boolean;
+  earthInsect: boolean;
+  avian: boolean;
+  canine: boolean;
+  feline: boolean;
 }
 
 export interface GetPetsBody {

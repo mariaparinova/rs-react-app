@@ -13,10 +13,10 @@ export enum ButtonType {
 }
 
 interface ButtonProps {
-  onClick?: MouseEventHandler<HTMLButtonElement>;
   children: ReactNode;
   style: ButtonStyle;
   isDisabled: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   className?: string;
   type?: ButtonType;
 }

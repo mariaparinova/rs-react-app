@@ -5,10 +5,11 @@ import { Button, ButtonStyle } from './components/Button/Button.tsx';
 import { ContentContainer } from './components/ContentContainer/ContentContainer.tsx';
 import { Table } from './components/Table/Table.tsx';
 import { Pet } from './types/pet.ts';
-import { SEARCH_TERM_KEY } from './constants.ts';
 import { getPets } from './api-repositories/pets/pets.ts';
 import { formatSearchInput } from './utils/formatSearchInput.ts';
 import { Spinner } from './components/Spinner/Spinner.tsx';
+
+export const SEARCH_TERM_KEY = 'searchTerm';
 
 type Props = Record<string, never>;
 
@@ -19,15 +20,8 @@ interface State {
   shouldThrowError: boolean;
 }
 
-const initialAppState: State = {
-  searchTerm: localStorage.getItem(SEARCH_TERM_KEY) || '',
-  pets: undefined,
-  isLoading: false,
-  shouldThrowError: false,
-};
-
 export class App extends Component<Props, State> {
-  state: State = initialAppState;
+  state: State;
 
   constructor(props: Props) {
     super(props);
@@ -65,13 +59,13 @@ export class App extends Component<Props, State> {
           initialSearchTerm={this.state.searchTerm}
           onSearchTermChange={this.changeSearchTerm}
           isLoading={this.state.isLoading}
-        ></TopControls>
+        />
         <ContentContainer>
           {this.state.isLoading && <Spinner />}
           {this.state.pets?.length === 0 ? (
             <div>No pets found</div>
           ) : (
-            <Table columnNames={['Id', 'Name']} tableData={this.state.pets || []}></Table>
+            <Table columnNames={['Id', 'Name']} tableData={this.state.pets || []} ariaLabel={'pets list'}></Table>
           )}
         </ContentContainer>
         <Button
