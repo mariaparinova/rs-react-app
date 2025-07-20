@@ -73,3 +73,7 @@ h4 {
   font-weight: 700;
   font-family: var(--font-family-Roboto);
 }
+
+.font-size-xs {
+  font-size: 14px;
+}

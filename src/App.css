@@ -11,10 +11,6 @@
   font-family: var(--font-family-Roboto);
   background-color: var(--bg-color-main);
 
-  .content-container {
-    min-height: 414px;
-  }
-
   .throw-error-btn {
     align-self: flex-end;
   }

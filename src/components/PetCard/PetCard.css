@@ -1,0 +1,23 @@
+.pets {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: fit-content;
+
+  .pet-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    min-width: 226px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-s);
+
+    .pet-id {
+      color: var(--font-color-secondary);
+    }
+  }
+}
