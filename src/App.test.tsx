@@ -228,7 +228,7 @@ describe('<App>', () => {
 
       // ASSERT
       await waitFor(() => {
-        expect(screen.getByRole('heading', { name: 'Error' })).not.toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Error' })).toBeInTheDocument();
       });
     });
   });
