@@ -1,37 +1,21 @@
 import './Input.css';
-import { ChangeEvent, Component } from 'react';
+import { InputProps, InputType } from './Input.types.ts';
 
-export enum InputType {
-  Text = 'text',
-  Search = 'search',
-}
+export const Input = (props: InputProps) => {
+  const { onChange, type = InputType.Text, value, id, placeholder = '', isDisabled = false } = props;
 
-type InputProps = {
-  value: string;
-  id: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  type?: InputType;
-  placeholder?: string;
-  isDisabled?: boolean;
+  return (
+    <>
+      <label htmlFor={id}></label>
+      <input
+        placeholder={placeholder}
+        id={id}
+        className="input"
+        type={type}
+        onChange={onChange}
+        value={value}
+        disabled={isDisabled}
+      />
+    </>
+  );
 };
-
-export class Input extends Component<InputProps> {
-  render() {
-    const { onChange, type = InputType.Text, value, id, placeholder = '', isDisabled = false } = this.props;
-
-    return (
-      <>
-        <label htmlFor={id}></label>
-        <input
-          placeholder={placeholder}
-          id={id}
-          className="input"
-          type={type}
-          onChange={onChange}
-          value={value}
-          disabled={isDisabled}
-        />
-      </>
-    );
-  }
-}

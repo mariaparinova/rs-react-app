@@ -1,53 +1,35 @@
 import './TopControls.css';
-import { ChangeEvent, Component, FormEventHandler } from 'react';
+import { ChangeEvent, FormEventHandler, useState } from 'react';
 import { InputSearch } from '../inputs/InputSearch/InputSearch.tsx';
-import { Button, ButtonStyle, ButtonType } from '../Button/Button.tsx';
+import { Button } from '../Button/Button.tsx';
+import { TopControlsProps } from './TopControls.types.ts';
+import { ButtonStyle, ButtonType } from '../Button/Button.types.ts';
 
-export interface TopControlsProps {
-  initialSearchTerm: string;
-  isLoading: boolean;
-  onSearchTermChange: (searchTerm: string) => void;
-}
+export function TopControls(props: TopControlsProps) {
+  const { isLoading, onSearchTermChange, initialSearchTerm } = props;
+  const [searchTerm, setSearchTerm] = useState<string>(initialSearchTerm);
 
-interface TopControlsState {
-  searchTerm: string;
-}
+  const handleBtnClick: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    onSearchTermChange(searchTerm);
+  };
 
-export class TopControls extends Component<TopControlsProps, TopControlsState> {
-  constructor(props: TopControlsProps) {
-    super(props);
+  const handleInputChanges = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
 
-    this.state = {
-      searchTerm: props.initialSearchTerm,
-    };
-  }
-
-  render() {
-    const handleBtnClick: FormEventHandler<HTMLFormElement> = (event) => {
-      event.preventDefault();
-      this.props.onSearchTermChange(this.state.searchTerm);
-    };
-
-    const handleInputChanges = (event: ChangeEvent<HTMLInputElement>) => {
-      this.setState({
-        ...this.state,
-        searchTerm: event.target.value,
-      });
-    };
-
-    return (
-      <form className="top-controls" onSubmit={handleBtnClick} data-testid="top-controls">
-        <InputSearch
-          id="search-input"
-          placeholder="Search by name"
-          value={this.state.searchTerm}
-          isDisabled={this.props.isLoading}
-          onChange={handleInputChanges}
-        />
-        <Button style={ButtonStyle.Primary} isDisabled={this.props.isLoading} type={ButtonType.Submit}>
-          Search
-        </Button>
-      </form>
-    );
-  }
+  return (
+    <form className="top-controls" onSubmit={handleBtnClick} data-testid="top-controls">
+      <InputSearch
+        id="search-input"
+        placeholder="Search by name"
+        value={searchTerm}
+        isDisabled={isLoading}
+        onChange={handleInputChanges}
+      />
+      <Button style={ButtonStyle.Primary} isDisabled={isLoading} type={ButtonType.Submit}>
+        Search
+      </Button>
+    </form>
+  );
 }

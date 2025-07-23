@@ -1,7 +1,6 @@
 import './App.css';
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import { TopControls } from './components/TopControls/TopControls.tsx';
-import { Button, ButtonStyle } from './components/Button/Button.tsx';
 import { ContentContainer } from './components/ContentContainer/ContentContainer.tsx';
 import { PetCard } from './components/PetCard/PetCard.tsx';
 import { Pet } from './types/pet.ts';
@@ -10,110 +9,68 @@ import { formatSearchInput } from './utils/formatSearchInput.ts';
 import { Spinner } from './components/Spinner/Spinner.tsx';
 
 export const SEARCH_TERM_KEY = 'searchTerm';
+const initSearchTerm = localStorage.getItem(SEARCH_TERM_KEY) || '';
 
-type Props = Record<string, never>;
+export function App() {
+  const [searchTerm, setSearchTerm] = useState<string>(initSearchTerm);
+  const [pets, setPets] = useState<Pet[] | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [shouldThrowError, setShouldThrowError] = useState<boolean>(false);
 
-interface State {
-  searchTerm: string;
-  pets: Pet[] | undefined;
-  isLoading: boolean;
-  shouldThrowError: boolean;
-}
-
-export class App extends Component<Props, State> {
-  state: State;
-
-  constructor(props: Props) {
-    super(props);
-
-    const searchTerm = localStorage.getItem(SEARCH_TERM_KEY) || '';
-
-    this.state = {
-      searchTerm,
-      pets: undefined,
-      isLoading: false,
-      shouldThrowError: false,
-    };
-  }
-
-  componentDidMount() {
-    this.fetchPets({ name: this.state.searchTerm });
-  }
-
-  componentDidUpdate(_: Props, prevState: State) {
-    if (this.state.searchTerm !== prevState.searchTerm) {
-      localStorage.setItem(SEARCH_TERM_KEY, this.state.searchTerm);
-
-      this.fetchPets({ name: this.state.searchTerm });
-    }
-  }
-
-  render() {
-    const { searchTerm, pets, isLoading, shouldThrowError } = this.state;
-
-    if (shouldThrowError) {
-      throw new Error('Just a test! This error was thrown on purpose to check error handling');
-    }
-
-    const renderPets = () => {
-      if (pets?.length === 0) {
-        return <div>No pets found</div>;
-      }
-
-      return (
-        <div className="pets">
-          {pets?.map((pet) => (
-            <PetCard key={pet.id} pet={pet} />
-          ))}
-        </div>
-      );
-    };
-
-    return (
-      <div className="app">
-        <TopControls initialSearchTerm={searchTerm} onSearchTermChange={this.changeSearchTerm} isLoading={isLoading} />
-        <ContentContainer>
-          {isLoading && <Spinner />}
-          {renderPets()}
-        </ContentContainer>
-        <Button
-          onClick={() => {
-            this.setState({ ...this.state, shouldThrowError: true });
-          }}
-          style={ButtonStyle.Secondary}
-          isDisabled={isLoading}
-          className="throw-error-btn"
-        >
-          Throw error
-        </Button>
-      </div>
-    );
-  }
-
-  private async fetchPets(props: { name: string; offset?: number; limit?: number }): Promise<void> {
-    this.setState({ ...this.state, isLoading: true });
+  const fetchPets = async (params: { name: string; offset?: number; limit?: number }) => {
+    const { name, offset, limit } = params;
 
     try {
-      const pets = await getPets({ ...props, name: formatSearchInput(props.name) });
+      setIsLoading(true);
 
-      this.setState({
-        ...this.state,
-        isLoading: false,
-        pets,
-      });
+      const pets = await getPets({ name: formatSearchInput(name), pageNumber: offset, pageSize: limit });
+
+      setPets(pets);
+      setIsLoading(false);
     } catch (error) {
-      this.setState({
-        ...this.state,
-        isLoading: false,
-      });
+      setIsLoading(false);
+      setShouldThrowError(true);
 
-      this.setState({ ...this.state, shouldThrowError: true });
-
-      if (error instanceof Error) console.warn(`Error: ${error.message}`);
+      if (error instanceof Error) {
+        console.warn(`Error: ${error.message}`);
+      }
     }
+  };
+
+  const renderPets = () => {
+    if (pets?.length === 0) {
+      return <div>No pets found</div>;
+    }
+
+    return (
+      <div className="pets">
+        {pets?.map((pet) => (
+          <PetCard key={pet.id} pet={pet} />
+        ))}
+      </div>
+    );
+  };
+
+  const changeSearchTerm = (searchTerm: string): void => {
+    setSearchTerm(searchTerm);
+  };
+
+  useEffect(() => {
+    localStorage.setItem(SEARCH_TERM_KEY, searchTerm);
+    fetchPets({ name: searchTerm });
+  }, [searchTerm]);
+
+  if (shouldThrowError) {
+    throw new Error('Just a test! This error was thrown on purpose to check error handling');
   }
 
-  private changeSearchTerm = (searchTerm: string) => {
-    this.setState({ ...this.state, searchTerm });
-  };
+  return (
+    <div className="app">
+      <TopControls initialSearchTerm={searchTerm} onSearchTermChange={changeSearchTerm} isLoading={isLoading} />
+      <ContentContainer>
+        {isLoading && <Spinner />}
+        {renderPets()}
+      </ContentContainer>
+    </div>
+  );
 }

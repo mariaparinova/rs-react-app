@@ -2,7 +2,6 @@ import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-lib
 import { describe, expect, test, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { App, SEARCH_TERM_KEY } from './App.tsx';
-import { ErrorBoundary } from './components/Error/Error.tsx';
 import { getPets } from './api-repositories/pets/pets.ts';
 
 const pets = [
@@ -88,7 +87,7 @@ describe('<App>', () => {
       expect(localStorage.getItem(SEARCH_TERM_KEY)).toBe('test value');
     });
 
-    test('checks input and button are disabled during fetching', () => {
+    test('checks input and button are disabled during fetching', async () => {
       // ARRANGE
       vi.mocked(getPets).mockImplementationOnce(() => new Promise(() => {}));
 
@@ -99,8 +98,10 @@ describe('<App>', () => {
       const input = screen.getByPlaceholderText('Search by name');
       const button = screen.getByRole('button', { name: 'Search' });
 
-      expect(input).toBeDisabled();
-      expect(button).toBeDisabled();
+      await waitFor(() => {
+        expect(input).toBeDisabled();
+        expect(button).toBeDisabled();
+      });
     });
   });
 
@@ -176,59 +177,6 @@ describe('<App>', () => {
       // ASSERT
       await waitFor(() => {
         expect(screen.getByText('No pets found')).toBeInTheDocument();
-      });
-    });
-  });
-
-  describe('Error button', () => {
-    test('checks App renders Error button', async () => {
-      // ACT
-      render(<App />);
-
-      // ASSERT
-      await waitFor(() => {
-        const errButton = screen.getByRole('button', { name: 'Throw error' });
-        expect(errButton).toBeInTheDocument();
-      });
-    });
-
-    test('checks error button is disabled during fetching', async () => {
-      // ACT
-      render(<App />);
-
-      // ASSERT
-      await waitFor(() => {
-        const button = screen.getByRole('button', { name: 'Throw error' });
-        expect(button).toBeDisabled();
-      });
-    });
-
-    test('checks App renders Error page after clicking on error button', async () => {
-      // ARRANGE
-      const fallbackErrorElement = (
-        <div className="error">
-          <h3>Error</h3>
-          <div>Oops! Something went wrong</div>
-        </div>
-      );
-
-      // ACT
-      render(
-        <ErrorBoundary fallback={fallbackErrorElement}>
-          <App />
-        </ErrorBoundary>
-      );
-
-      const errorButton = screen.getByRole('button', { name: 'Throw error' });
-
-      await waitFor(() => {
-        expect(errorButton).not.toBeDisabled();
-      });
-      await userEvent.click(errorButton);
-
-      // ASSERT
-      await waitFor(() => {
-        expect(screen.getByRole('heading', { name: 'Error' })).toBeInTheDocument();
       });
     });
   });
