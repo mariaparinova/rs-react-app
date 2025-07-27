@@ -1,4 +1,4 @@
-import { describe, vi } from 'vitest';
+import { describe, vi, test, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ErrorBoundary } from './Error.tsx';
 

@@ -3,6 +3,13 @@ import { pets } from './data-animals.ts';
 import { GetPetsBody, PetDto } from '../../src/api-repositories/pets/pets.types.ts';
 const DEFAULT_LIMIT = 10;
 
+type ResponseBody = {
+  animals: GetPetsBody['animals'];
+  page: {
+    totalPages: GetPetsBody['page']['totalPages'];
+  };
+};
+
 export const handlers = [
   http.post('https://stapi.co/api/v1/rest/animal/search', async ({ request }) => {
     const bodyText = await request.text();
@@ -23,7 +30,10 @@ export const handlers = [
     const start = pageNumber * pageSize;
     const end = start + pageSize;
 
-    const responseBody: Pick<GetPetsBody, 'animals'> = {
+    const responseBody: ResponseBody = {
+      page: {
+        totalPages: 2,
+      },
       animals: petsResult.slice(start, end),
     };
 

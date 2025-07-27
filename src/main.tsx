@@ -1,8 +1,9 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { App } from './App.tsx';
 import { ErrorBoundary } from './components/Error/Error.tsx';
+import { router } from './router/router.tsx';
+import { RouterProvider } from 'react-router-dom';
 
 const fallbackErrorElement = (
   <div className="error">
@@ -14,7 +15,7 @@ const fallbackErrorElement = (
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary fallback={fallbackErrorElement}>
-      <App />
+      <RouterProvider router={router} />
     </ErrorBoundary>
   </StrictMode>
 );

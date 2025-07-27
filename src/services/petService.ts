@@ -5,5 +5,12 @@ export const convertPetDtoToPet = (petDto: PetDto): Pet => {
   return {
     id: petDto.uid,
     name: petDto.name,
+    types: {
+      animal: petDto.earthAnimal,
+      insect: petDto.earthInsect,
+      bird: petDto.avian,
+      dog: petDto.canine,
+      cat: petDto.feline,
+    },
   };
 };

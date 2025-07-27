@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 export interface ErrorProps {
-  children: ReactNode;
+  children?: ReactNode;
   fallback: ReactNode;
 }
 

@@ -13,6 +13,9 @@
 
   --bg-color-main: #ebe6dc;
   --bg-color-light-main: #efebe3;
+  --bg-color-bright: #e0caab;
+  --bg-overlay-opacity-30: rgba(124, 120, 111, 0.3);
+  --bg-overlay-opacity-80: rgba(124, 120, 111, 0.8);
 
   --border-color: #d8d3c9;
   --border-radius-s: 8px;
@@ -21,6 +24,7 @@
   --color-accent-primary: #d89b47;
   --color-accent-secondary: #61922c;
   --color-disabled: #acb89f;
+  --color-hover-primary: #ec8423;
 
   --shadow: 0 0 23px 0 rgba(214, 171, 84, 0.2);
 }
@@ -36,14 +40,12 @@ img {
 }
 
 a {
-  color: var(--font-color-primary);
-  text-decoration: none;
-  white-space: nowrap;
+  color: var(--color-accent-primary);
   cursor: pointer;
   transition: color 0.3s;
 
   &:hover {
-    color: var(--color-accent-secondary);
+    color: var(--color-hover-primary);
   }
 }
 
@@ -69,11 +71,35 @@ h3 {
 }
 
 h4 {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
+  text-transform: uppercase;
+  color: var(--font-color-secondary);
   font-family: var(--font-family-Roboto);
+  transition: color 0.3s;
 }
 
 .font-size-xs {
-  font-size: 14px;
+  font-size: 12px;
+}
+
+.font-disabled {
+  color: var(--color-disabled);
+}
+
+#root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  min-height: 100vh;
+  max-width: 736px;
+  color: var(--font-color-primary);
+  font-family: var(--font-family-Roboto);
+  background-color: var(--bg-color-main);
+  overflow-x: hidden;
+}
+
+main {
+  flex-grow: 1;
 }
