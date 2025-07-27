@@ -96,6 +96,7 @@ h4 {
   max-width: 736px;
   color: var(--font-color-primary);
   font-family: var(--font-family-Roboto);
+  line-height: 1.5em;
   background-color: var(--bg-color-main);
   overflow-x: hidden;
 }
