@@ -11,7 +11,7 @@ import IconCat from '../../icons/cat.svg?react';
 import IconUnknown from '../../icons/question-mark.svg?react';
 import IconLion from '../../icons/lion.svg?react';
 
-const getIcon = (pet: Pet) => {
+export const getIcon = (pet: Pet) => {
   switch (true) {
     case pet.types.animal:
       return <IconAnimal />;
@@ -45,9 +45,7 @@ export function DetailedPetPage() {
           pathname: `${ROUTES.ROOT}`,
           search: `${location.search}`,
         }}
-      >
-        <div className="bg"></div>
-      </Link>
+      ></Link>
     );
   };
 
