@@ -5,19 +5,33 @@
   flex-wrap: wrap;
   width: fit-content;
 
+  a {
+    text-decoration: none;
+  }
+
   .pet-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 12px;
-    min-width: 226px;
+    padding: 16px;
+    width: 226px;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-s);
+    transition: border-color 0.3s;
+    cursor: pointer;
 
-    .pet-id {
-      color: var(--font-color-secondary);
+    h4 {
+      text-align: center;
+    }
+
+    &:hover {
+      border-color: var(--color-accent-primary);
+
+      h4 {
+        color: var(--color-accent-secondary);
+      }
     }
   }
 }

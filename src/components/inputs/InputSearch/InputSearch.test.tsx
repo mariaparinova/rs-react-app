@@ -2,11 +2,19 @@ import { describe, expect, test, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { InputSearch } from './InputSearch.tsx';
 import userEvent from '@testing-library/user-event';
+import { InputSearchProps } from './InputSearch.types.ts';
+
+const defaultProps: InputSearchProps = {
+  placeholder: 'placeholder for testing',
+  id: 'id',
+  value: '',
+  onChange: () => {},
+};
 
 describe('<InputSearch>', () => {
   test('checks input search has placeholder', () => {
     // ACT
-    render(<InputSearch placeholder="placeholder for testing" id="id" value="" onChange={() => {}} />);
+    render(<InputSearch {...defaultProps} />);
 
     // ASSERT
     const input = screen.getByPlaceholderText('placeholder for testing');
@@ -16,7 +24,7 @@ describe('<InputSearch>', () => {
   describe('disabled', () => {
     test('checks input search is not disabled by default', () => {
       // ACT
-      render(<InputSearch placeholder="placeholder for testing" id="id" value="" onChange={() => {}} />);
+      render(<InputSearch {...defaultProps} />);
 
       // ASSERT
       const input = screen.getByPlaceholderText('placeholder for testing');
@@ -25,9 +33,7 @@ describe('<InputSearch>', () => {
 
     test('checks input search is disabled if prop "isDisabled" is true', () => {
       // ACT
-      render(
-        <InputSearch isDisabled={true} placeholder="placeholder for testing" id="id" value="" onChange={() => {}} />
-      );
+      render(<InputSearch {...defaultProps} isDisabled={true} />);
 
       // ASSERT
       const input = screen.getByPlaceholderText('placeholder for testing');
@@ -36,9 +42,7 @@ describe('<InputSearch>', () => {
 
     test('checks input search is not disabled if prop "isDisabled" is false', () => {
       // ACT
-      render(
-        <InputSearch isDisabled={false} placeholder="placeholder for testing" id="id" value="" onChange={() => {}} />
-      );
+      render(<InputSearch {...defaultProps} />);
 
       // ASSERT
       const input = screen.getByPlaceholderText('placeholder for testing');
@@ -51,11 +55,11 @@ describe('<InputSearch>', () => {
     const onChangeHandler = vi.fn();
 
     // ACT
-    render(<InputSearch value="" id="id" onChange={onChangeHandler} placeholder="placeholder" />);
-    const input = screen.getByPlaceholderText('placeholder');
+    render(<InputSearch {...defaultProps} onChange={onChangeHandler} />);
+    const input = screen.getByPlaceholderText(`${defaultProps.placeholder}`);
     await userEvent.type(input, 'hello');
 
-    // ARRANGE
+    // ASSERT
     expect(onChangeHandler).toHaveBeenCalledTimes('hello'.length);
   });
 });

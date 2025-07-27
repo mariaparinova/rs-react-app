@@ -1,3 +1,5 @@
+import { Pet } from '../../types/pet.ts';
+
 export interface GetPetsParams {
   name?: string;
   pageNumber?: number;
@@ -28,4 +30,9 @@ export interface GetPetsBody {
     clauses: [];
   };
   animals: PetDto[];
+}
+
+export interface getPetsResult {
+  totalPages: number;
+  pets: Pet[];
 }

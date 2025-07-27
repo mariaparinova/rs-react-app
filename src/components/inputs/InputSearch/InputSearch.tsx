@@ -1,26 +1,18 @@
-import { ChangeEvent, Component } from 'react';
-import { Input, InputType } from '../Input/Input.tsx';
+import { Input } from '../Input/Input.tsx';
+import { InputSearchProps } from './InputSearch.types.ts';
+import { InputType } from '../Input/Input.types.ts';
 
-interface InputSearchProps {
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
-  id: string;
-  placeholder?: string;
-  isDisabled?: boolean;
-}
+export const InputSearch = (props: InputSearchProps) => {
+  const { onChange, value, id, placeholder = '', isDisabled = false } = props;
 
-export class InputSearch extends Component<InputSearchProps> {
-  render() {
-    const { onChange, value, id, placeholder = '', isDisabled = false } = this.props;
-    return (
-      <Input
-        id={id}
-        onChange={onChange}
-        type={InputType.Search}
-        value={value}
-        placeholder={placeholder}
-        isDisabled={isDisabled}
-      />
-    );
-  }
-}
+  return (
+    <Input
+      id={id}
+      onChange={onChange}
+      type={InputType.Search}
+      value={value}
+      placeholder={placeholder}
+      isDisabled={isDisabled}
+    />
+  );
+};

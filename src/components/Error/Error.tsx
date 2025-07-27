@@ -1,16 +1,8 @@
 import './Error.css';
-import { Component, ReactNode } from 'react';
+import { Component } from 'react';
+import { ErrorProps, State } from './Error.types.ts';
 
-interface State {
-  hasError: boolean;
-}
-
-interface Props {
-  children: ReactNode;
-  fallback: ReactNode;
-}
-
-export class ErrorBoundary extends Component<Props, State> {
+export class ErrorBoundary extends Component<ErrorProps, State> {
   state = { hasError: false };
 
   static getDerivedStateFromError(error: unknown): State {

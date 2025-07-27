@@ -8,6 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--bg-color-light-main);
-  border-radius: var(--border-radius-m);
+  color: var(--font-color-primary);
+  background-color: var(--bg-overlay-opacity-80);
+  border-radius: var(--border-radius-s);
 }

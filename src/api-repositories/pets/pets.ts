@@ -1,12 +1,11 @@
-import { GetPetsBody, GetPetsParams } from './pets.types.ts';
+import { GetPetsBody, GetPetsParams, getPetsResult, PetDto } from './pets.types.ts';
 import { convertPetDtoToPet } from '../../services/petService.ts';
 import { Pet } from '../../types/pet.ts';
 
 const BASE_URL = 'https://stapi.co/api';
-const AMOUNT_OF_ITEMS_PER_PAGE = 10;
 
-export const getPets = async (params: GetPetsParams): Promise<Pet[]> => {
-  const { name, pageNumber = 1, pageSize = AMOUNT_OF_ITEMS_PER_PAGE } = params;
+export const getPets = async (params: GetPetsParams): Promise<getPetsResult> => {
+  const { name, pageNumber, pageSize } = params;
   const url = `${BASE_URL}/v1/rest/animal/search`;
   const queryParams = new URLSearchParams();
 
@@ -37,5 +36,26 @@ export const getPets = async (params: GetPetsParams): Promise<Pet[]> => {
 
   const responseBody: GetPetsBody = await response.json();
 
-  return responseBody.animals.map((petDto) => convertPetDtoToPet(petDto));
+  return {
+    totalPages: responseBody.page.totalPages,
+    pets: responseBody.animals.map((petDto) => convertPetDtoToPet(petDto)),
+  };
+};
+
+export const getPetById = async (params: { id: string }): Promise<Pet> => {
+  const { id } = params;
+  const url = `${BASE_URL}/v1/rest/animal`;
+  const queryParams = new URLSearchParams();
+  queryParams.set('uid', id);
+
+  const response = await fetch(`${url}?${queryParams}`);
+
+  if (response.status !== 200) {
+    throw new Error('Error during fetching pet by id');
+  }
+
+  const responseBody: Record<'animal', PetDto> = await response.json();
+  const animal = responseBody.animal;
+
+  return convertPetDtoToPet(animal);
 };

@@ -1,34 +1,26 @@
 import './Button.css';
-import { Component, MouseEventHandler, ReactNode } from 'react';
+import { ButtonProps, ButtonType } from './Button.types.ts';
 
-export enum ButtonStyle {
-  Primary = 'primary',
-  Secondary = 'secondary',
-}
+export function Button(props: ButtonProps) {
+  const {
+    onClick,
+    children,
+    style,
+    isDisabled,
+    className = '',
+    type = ButtonType.Button,
+    ['data-testid']: dataTestid,
+  } = props;
 
-export enum ButtonType {
-  Button = 'button',
-  Submit = 'submit',
-  Reset = 'reset',
-}
-
-interface ButtonProps {
-  children: ReactNode;
-  style: ButtonStyle;
-  isDisabled: boolean;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-  className?: string;
-  type?: ButtonType;
-}
-
-export class Button extends Component<ButtonProps> {
-  render() {
-    const { onClick, children, style, isDisabled, className = '', type = ButtonType.Button } = this.props;
-
-    return (
-      <button className={`button ${style} ${className}`} onClick={onClick} disabled={isDisabled} type={type}>
-        {children}
-      </button>
-    );
-  }
+  return (
+    <button
+      className={`button ${style} ${className}`}
+      onClick={onClick}
+      disabled={isDisabled}
+      type={type}
+      data-testid={dataTestid}
+    >
+      {children}
+    </button>
+  );
 }

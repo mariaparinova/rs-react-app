@@ -1,7 +1,8 @@
 import { describe, expect, test } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { Button, ButtonStyle } from './Button.tsx';
+import { Button } from './Button.tsx';
 import '@testing-library/jest-dom';
+import { ButtonStyle } from './Button.types.ts';
 
 describe('<Button>', () => {
   test('checks that button has text', () => {
