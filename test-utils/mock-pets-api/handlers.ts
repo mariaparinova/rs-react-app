@@ -10,8 +10,10 @@ type ResponseBody = {
   };
 };
 
+const BASE_URL = 'https://stapi.co/api';
+
 export const handlers = [
-  http.post('https://stapi.co/api/v1/rest/animal/search', async ({ request }) => {
+  http.post(`${BASE_URL}/v1/rest/animal/search`, async ({ request }) => {
     const bodyText = await request.text();
     const params = new URLSearchParams(bodyText);
     const name = params.get('name');
@@ -38,5 +40,13 @@ export const handlers = [
     };
 
     return HttpResponse.json(responseBody);
+  }),
+
+  http.get(`${BASE_URL}/v1/rest/animal`, async ({ request }) => {
+    const searchParams = new URL(request.url).searchParams;
+    const id = searchParams.get('uid');
+    const petsResult = { animal: pets.find((pet) => pet.uid === id) };
+
+    return HttpResponse.json(petsResult);
   }),
 ];
