@@ -3,14 +3,18 @@ import { render, screen } from '@testing-library/react';
 import { NotFoundPage } from './NotFoundPage.tsx';
 import { MemoryRouter } from 'react-router-dom';
 
+function renderComponent() {
+  return render(
+    <MemoryRouter>
+      <NotFoundPage />
+    </MemoryRouter>
+  );
+}
+
 describe('<NotFoundPage>', () => {
   test('check NotFoundPage has header', () => {
     // ACT
-    render(
-      <MemoryRouter>
-        <NotFoundPage />
-      </MemoryRouter>
-    );
+    renderComponent();
 
     // ASSERT
     const header = screen.getByRole('heading', { name: '404' });
@@ -19,11 +23,7 @@ describe('<NotFoundPage>', () => {
 
   test('check NotFoundPage has text content', () => {
     // ACT
-    render(
-      <MemoryRouter>
-        <NotFoundPage />
-      </MemoryRouter>
-    );
+    renderComponent();
 
     // ASSERT
     const textContent = screen.getByText('page not found');
@@ -32,11 +32,7 @@ describe('<NotFoundPage>', () => {
 
   test('check NotFoundPage has button "to main page"', () => {
     // ACT
-    render(
-      <MemoryRouter>
-        <NotFoundPage />
-      </MemoryRouter>
-    );
+    renderComponent();
 
     // ASSERT
     const button = screen.getByRole('button', { name: 'to main page' });

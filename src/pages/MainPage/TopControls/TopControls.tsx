@@ -5,8 +5,7 @@ import { Button } from '../../../components/Button/Button.tsx';
 import { TopControlsProps } from './TopControls.types.ts';
 import { ButtonStyle, ButtonType } from '../../../components/Button/Button.types.ts';
 
-export function TopControls(props: TopControlsProps) {
-  const { isLoading, onSearchTermChange, initialSearchTerm } = props;
+export function TopControls({ isLoading, onSearchTermChange, initialSearchTerm }: TopControlsProps) {
   const [searchTerm, setSearchTerm] = useState<string>(initialSearchTerm);
 
   const handleBtnClick: FormEventHandler<HTMLFormElement> = (event) => {

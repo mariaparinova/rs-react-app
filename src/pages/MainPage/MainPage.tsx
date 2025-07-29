@@ -19,7 +19,8 @@ export function MainPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalPages, setTotalPages] = useState<number | undefined>(undefined);
-  const { searchTerm, setSearchTerm } = useSearchTerm();
+  const [fetchPetsErrorMessage, setFetchPetsErrorMessage] = useState<string | undefined>(undefined);
+  const [searchTerm, setSearchTerm] = useSearchTerm();
   const location = useLocation();
   const activePageSearchParam = searchParams.get(SEARCH_PARAMS_PAGE);
   const navigation = useNavigation();
@@ -49,13 +50,23 @@ export function MainPage() {
 
       setPets(pets);
       setTotalPages(totalPages);
-      setIsLoading(false);
-    } catch {
+      setFetchPetsErrorMessage(undefined);
+    } catch (err) {
+      if (err instanceof Error) {
+        setFetchPetsErrorMessage(err.message);
+      } else {
+        setFetchPetsErrorMessage('Unknown error');
+      }
+    } finally {
       setIsLoading(false);
     }
   };
 
   const renderPets = () => {
+    if (fetchPetsErrorMessage) {
+      return <div>{fetchPetsErrorMessage}</div>;
+    }
+
     if (pets?.length === 0) {
       return <div>No pets found</div>;
     }

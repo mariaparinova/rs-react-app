@@ -13,6 +13,8 @@ export interface PaginationProps {
 
 export const Pagination = (props: PaginationProps) => {
   const { activePage, totalPages, previousPageClickHandler, nextPageClickHandler, isDisabled = false } = props;
+  const isBtnToPreviousDisabled = activePage === 1 || !totalPages || activePage > totalPages || isDisabled;
+  const isBtnToNextDisabled = activePage === totalPages || !totalPages || activePage > totalPages || isDisabled;
 
   const renderPaginationText = () => {
     return (
@@ -29,7 +31,7 @@ export const Pagination = (props: PaginationProps) => {
       <Button
         className="to-previous-page"
         style={ButtonStyle.IconBtn}
-        isDisabled={activePage === 1 || !totalPages || activePage > totalPages || isDisabled}
+        isDisabled={isBtnToPreviousDisabled}
         onClick={previousPageClickHandler}
         data-testid="to-previous"
       >
@@ -39,7 +41,7 @@ export const Pagination = (props: PaginationProps) => {
       <Button
         className="to-next-page"
         style={ButtonStyle.IconBtn}
-        isDisabled={activePage === totalPages || !totalPages || activePage > totalPages || isDisabled}
+        isDisabled={isBtnToNextDisabled}
         onClick={nextPageClickHandler}
         data-testid="to-next"
       >
