@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { pets } from './data-animals.ts';
-import { GetPetsBody, PetDto } from '../../src/api-repositories/pets/pets.types.ts';
+import { GetPetsBody, PetDto } from '../../api-repositories/pets/pets.types.ts';
 const DEFAULT_LIMIT = 10;
 
 type ResponseBody = {

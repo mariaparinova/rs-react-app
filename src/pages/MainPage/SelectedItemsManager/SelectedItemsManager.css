@@ -1,0 +1,22 @@
+.selected-items-manager {
+  position: relative;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 1em;
+  width: 100%;
+  background-color: var(--bg-overlay-opacity-30);
+  border-radius: var(--border-radius-s);
+  transition: right 0.3s;
+
+  &.hidden {
+    right: -150%;
+  }
+
+  .buttons-container {
+    display: flex;
+    gap: 12px;
+  }
+}

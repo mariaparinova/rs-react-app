@@ -7,9 +7,10 @@ import { PetCard } from '../../components/PetCard/PetCard.tsx';
 import { TopControls } from './TopControls/TopControls.tsx';
 import { Spinner } from '../../components/Spinner/Spinner.tsx';
 import { Pagination } from '../../components/Pagination/Pagination.tsx';
-import { Link, Outlet, useLocation, useNavigation, useSearchParams } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useNavigation, useSearchParams } from 'react-router-dom';
 import { useSearchTerm } from './useSearchTerm.hook.ts';
 import { getDetailedPetPagePath } from '../../router/router.tsx';
+import { SelectedItemsManager } from './SelectedItemsManager/SelectedItemsManager.tsx';
 
 const ITEMS_PER_PAGE = 10;
 export const SEARCH_PARAMS_PAGE = 'page';
@@ -24,6 +25,7 @@ export function MainPage() {
   const location = useLocation();
   const activePageSearchParam = searchParams.get(SEARCH_PARAMS_PAGE);
   const navigation = useNavigation();
+  const navigate = useNavigate();
 
   const activePage = useMemo(() => {
     const activePage = parseInt(activePageSearchParam || '', 10);
@@ -74,15 +76,16 @@ export function MainPage() {
     return (
       <div className="pets">
         {pets?.map((pet) => (
-          <Link
+          <PetCard
             key={pet.id}
-            to={{
-              pathname: getDetailedPetPagePath({ petId: pet.id }),
-              search: `${location.search}`,
-            }}
-          >
-            <PetCard pet={pet} />
-          </Link>
+            pet={pet}
+            onClick={() =>
+              navigate({
+                pathname: getDetailedPetPagePath({ petId: pet.id }),
+                search: `${location.search}`,
+              })
+            }
+          />
         ))}
       </div>
     );
@@ -113,6 +116,7 @@ export function MainPage() {
         previousPageClickHandler={() => setActivePage(activePage - 1)}
         isDisabled={isLoading}
       />
+      <SelectedItemsManager />
     </div>
   );
 }

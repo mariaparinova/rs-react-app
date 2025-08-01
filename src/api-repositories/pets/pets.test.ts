@@ -1,5 +1,5 @@
 import { getPetById, getPets } from './pets';
-import { petsApiServerMock } from '../../../test-utils/mock-pets-api/pets-api-server.mock.ts';
+import { petsApiServerMock } from '../../test-utils/mock-pets-api/pets-api-server.mock.ts';
 import { expect, describe, beforeAll, afterEach, afterAll, test } from 'vitest';
 import { http, HttpResponse } from 'msw';
 
