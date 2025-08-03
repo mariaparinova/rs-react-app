@@ -17,7 +17,7 @@ describe('<NotFoundPage>', () => {
     renderComponent();
 
     // ASSERT
-    const header = screen.getByRole('heading', { name: '404' });
+    const header = screen.getByRole('heading', { name: 'Not Found' });
     expect(header).toBeInTheDocument();
   });
 
@@ -26,7 +26,7 @@ describe('<NotFoundPage>', () => {
     renderComponent();
 
     // ASSERT
-    const textContent = screen.getByText('page not found');
+    const textContent = screen.getByText('This page doesn’t exist');
     expect(textContent).toBeInTheDocument();
   });
 

@@ -19,7 +19,7 @@ export const PetCard = ({ pet, onClick }: PetCardProps) => {
 
   return (
     <div className="pet-card" onClick={onClickHandler} data-testid="pet-card">
-      <h4>{pet.name}</h4>
+      <span>{pet.name}</span>
       <Checkbox id={pet.id} isChecked={!!selectedPets[pet.id]} onChange={() => setSelectedPets(pet)} />
     </div>
   );

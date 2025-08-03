@@ -7,12 +7,12 @@
   gap: 12px;
   padding: 1em;
   width: 100%;
-  background-color: var(--bg-overlay-opacity-30);
+  background-color: var(--bg-overlay-opacity-40);
   border-radius: var(--border-radius-s);
   transition: right 0.3s;
 
   &.hidden {
-    right: -150%;
+    right: -100vw;
   }
 
   .buttons-container {

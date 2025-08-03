@@ -1,24 +1,20 @@
-.not-found-page {
+.app {
   font-family: var(--font-family-Roboto);
+  line-height: 1.5em;
   color: var(--font-color-primary);
   background-color: var(--bg-color-main);
 
-  .content-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    padding: 4em;
+  .layout {
+    position: relative;
     margin: auto;
-    min-height: 100vh;
     max-width: 736px;
+    min-height: 100vh;
     border-right: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
 
-    svg {
-      width: 40px;
-      height: 40px;
-      color: var(--color-accent-secondary);
+    .main {
+      margin-top: 24px;
+      overflow-x: hidden;
     }
   }
 }

@@ -11,6 +11,7 @@ import { Outlet, useLocation, useNavigate, useNavigation, useSearchParams } from
 import { useSearchTerm } from './useSearchTerm.hook.ts';
 import { getDetailedPetPagePath } from '../../router/router.tsx';
 import { SelectedItemsManager } from './SelectedItemsManager/SelectedItemsManager.tsx';
+import { delay } from '../../utils/delay.ts';
 
 const ITEMS_PER_PAGE = 10;
 export const SEARCH_PARAMS_PAGE = 'page';
@@ -60,6 +61,7 @@ export function MainPage() {
         setFetchPetsErrorMessage('Unknown error');
       }
     } finally {
+      await delay(400);
       setIsLoading(false);
     }
   };

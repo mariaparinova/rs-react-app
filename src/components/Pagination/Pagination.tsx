@@ -18,7 +18,7 @@ export const Pagination = (props: PaginationProps) => {
 
   const renderPaginationText = () => {
     return (
-      <div className="pagination-content font-xs">
+      <div className="pagination-content">
         <span data-testid="active-page">{totalPages ? activePage : 0}</span>
         of
         <span data-testid="total-pages">{totalPages ? totalPages : 0}</span>

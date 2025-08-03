@@ -12,14 +12,13 @@
   padding: 24px 12px 12px;
   width: 50%;
   background-color: var(--bg-color-bright);
-  border: 1px solid var(--border-color);
   border-radius: var(--border-radius-s);
   transition: right 0.3s;
 
   .icon-cross {
     position: absolute;
-    top: 4px;
-    right: 4px;
+    top: 12px;
+    right: 12px;
     color: var(--font-color-primary);
 
     &:hover {
@@ -62,7 +61,7 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: var(--bg-overlay-opacity-30);
+  background-color: var(--bg-overlay-opacity-40);
   border-radius: var(--border-radius-s);
   cursor: default;
 }
