@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { MainPage } from './MainPage.tsx';
 import { getPets } from '../../api-repositories/pets/pets.ts';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import { SEARCH_TERM_KEY } from './useSearchTerm.hook.ts';
+import { SEARCH_TERM_KEY } from '../../hooks/useSearchTerm.hook.ts';
 
 const pets = [
   {

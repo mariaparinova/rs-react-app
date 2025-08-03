@@ -1,22 +1,16 @@
 import './App.css';
 import { Header } from './components/Header/Header.tsx';
 import { Outlet } from 'react-router-dom';
-import { Theme, THEME_KEY, ThemeContext, ThemeContextValue } from './context/Theme.context.ts';
-import { useCallback, useEffect, useState } from 'react';
-
-const initTheme = (localStorage.getItem(THEME_KEY) as ThemeContextValue['theme']) || Theme.Light;
+import { Theme, ThemeContext } from './context/Theme.context.ts';
+import { useCallback } from 'react';
+import { useTheme } from './hooks/useTheme.hook.ts';
 
 export function App() {
-  const [theme, setTheme] = useState<ThemeContextValue['theme']>(initTheme);
+  const [theme, setTheme] = useTheme();
 
   const toggleTheme = useCallback(() => {
     setTheme((prevTheme) => (prevTheme === Theme.Light ? Theme.Dark : Theme.Light));
   }, [setTheme]);
-
-  useEffect(() => {
-    localStorage.setItem(THEME_KEY, theme);
-    document.documentElement.className = theme;
-  }, [theme]);
 
   return (
     <ThemeContext value={{ theme, toggleTheme }}>

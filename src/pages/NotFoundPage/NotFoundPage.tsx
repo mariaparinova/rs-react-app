@@ -4,14 +4,15 @@ import { Button } from '../../components/Button/Button.tsx';
 import { ButtonStyle } from '../../components/Button/Button.types.ts';
 import IconLion from '../../icons/lion.svg?react';
 import { ROUTES } from '../../router/routes.ts';
-import { Theme, THEME_KEY } from '../../context/Theme.context.ts';
 import { useEffect } from 'react';
+import { useTheme } from '../../hooks/useTheme.hook.ts';
 
 export function NotFoundPage() {
   const navigate = useNavigate();
+  const [theme] = useTheme();
 
   useEffect(() => {
-    document.documentElement.className = localStorage.getItem(THEME_KEY) || Theme.Light;
+    document.documentElement.className = theme;
   });
 
   return (

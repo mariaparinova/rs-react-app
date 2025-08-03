@@ -8,7 +8,7 @@ import { TopControls } from './TopControls/TopControls.tsx';
 import { Spinner } from '../../components/Spinner/Spinner.tsx';
 import { Pagination } from '../../components/Pagination/Pagination.tsx';
 import { Outlet, useLocation, useNavigate, useNavigation, useSearchParams } from 'react-router-dom';
-import { useSearchTerm } from './useSearchTerm.hook.ts';
+import { useSearchTerm } from '../../hooks/useSearchTerm.hook.ts';
 import { getDetailedPetPagePath } from '../../router/router.tsx';
 import { SelectedItemsManager } from './SelectedItemsManager/SelectedItemsManager.tsx';
 import { delay } from '../../utils/delay.ts';
