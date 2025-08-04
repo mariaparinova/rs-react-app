@@ -13,7 +13,7 @@ export function NotFoundPage() {
 
   useEffect(() => {
     document.documentElement.className = theme;
-  });
+  }, [theme]);
 
   return (
     <div className="not-found-page">

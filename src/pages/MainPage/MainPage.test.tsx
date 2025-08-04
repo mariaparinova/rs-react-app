@@ -216,17 +216,16 @@ describe('<MainPage>', () => {
         // ACT
         renderComponent();
         await waitFor(() => {
-          const pet_1 = screen.getAllByTestId('pet-card')[0];
-          const pet_2 = screen.getAllByTestId('pet-card')[1];
-          const pet_3 = screen.getAllByTestId('pet-card')[2];
+          const cards = screen.getAllByTestId('pet-card').slice(0, 3);
+          const checkboxSelector = 'input[type="checkbox"]';
 
-          userEvent.click(pet_3.querySelector('input[type="checkbox"]')!);
-          userEvent.click(pet_2.querySelector('input[type="checkbox"]')!);
-          userEvent.click(pet_1.querySelector('input[type="checkbox"]')!);
+          cards.forEach((card) => {
+            userEvent.click(card.querySelector(checkboxSelector)!);
+          });
 
-          userEvent.click(pet_1.querySelector('input[type="checkbox"]')!);
-          userEvent.click(pet_2.querySelector('input[type="checkbox"]')!);
-          userEvent.click(pet_3.querySelector('input[type="checkbox"]')!);
+          cards.forEach((card) => {
+            userEvent.click(card.querySelector(checkboxSelector)!);
+          });
         });
 
         //ASSERT

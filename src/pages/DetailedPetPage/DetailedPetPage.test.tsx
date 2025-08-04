@@ -48,6 +48,28 @@ function renderComponent({ isLoaderSuccess = true, pet }: { isLoaderSuccess: boo
   );
 }
 
+type petType = 'animal' | 'insect' | 'bird' | 'dog' | 'cat';
+
+function getPet(petType?: petType): Pet {
+  const pet: Pet = {
+    id: '123',
+    name: 'owon',
+    types: { animal: false, insect: false, bird: false, dog: false, cat: false },
+  };
+
+  if (petType) {
+    return {
+      ...pet,
+      types: {
+        ...pet.types,
+        [petType]: true,
+      },
+    };
+  }
+
+  return pet;
+}
+
 describe('<DetailedPet>', () => {
   describe('DetailedPet when pet found', () => {
     test('checks pet name', async () => {
@@ -84,20 +106,10 @@ describe('<DetailedPet>', () => {
     describe('pet icon', () => {
       test('checks pet icon for animal type', async () => {
         // ARRANGE
-        const petAnimal: Pet = {
-          id: '123',
-          name: 'owon',
-          types: {
-            animal: true,
-            insect: false,
-            bird: false,
-            dog: false,
-            cat: true,
-          },
-        };
+        const pet = getPet('animal');
 
         // ACT
-        renderComponent({ isLoaderSuccess: true, pet: petAnimal });
+        renderComponent({ isLoaderSuccess: true, pet });
 
         // ASSERT
         await waitFor(() => {
@@ -107,20 +119,10 @@ describe('<DetailedPet>', () => {
 
       test('checks pet icon for insect type', async () => {
         // ARRANGE
-        const petAnimal: Pet = {
-          id: '123',
-          name: 'owon',
-          types: {
-            animal: false,
-            insect: true,
-            bird: false,
-            dog: false,
-            cat: true,
-          },
-        };
+        const pet = getPet('insect');
 
         // ACT
-        renderComponent({ isLoaderSuccess: true, pet: petAnimal });
+        renderComponent({ isLoaderSuccess: true, pet });
 
         // ASSERT
         await waitFor(() => {
@@ -130,20 +132,10 @@ describe('<DetailedPet>', () => {
 
       test('checks pet icon for bird type', async () => {
         // ARRANGE
-        const petAnimal: Pet = {
-          id: '123',
-          name: 'owon',
-          types: {
-            animal: false,
-            insect: false,
-            bird: true,
-            dog: false,
-            cat: true,
-          },
-        };
+        const pet = getPet('bird');
 
         // ACT
-        renderComponent({ isLoaderSuccess: true, pet: petAnimal });
+        renderComponent({ isLoaderSuccess: true, pet });
 
         // ASSERT
         await waitFor(() => {
@@ -153,20 +145,10 @@ describe('<DetailedPet>', () => {
 
       test('checks pet icon dog', async () => {
         // ARRANGE
-        const petAnimal: Pet = {
-          id: '123',
-          name: 'owon',
-          types: {
-            animal: false,
-            insect: false,
-            bird: false,
-            dog: true,
-            cat: false,
-          },
-        };
+        const pet = getPet('dog');
 
         // ACT
-        renderComponent({ isLoaderSuccess: true, pet: petAnimal });
+        renderComponent({ isLoaderSuccess: true, pet });
 
         // ASSERT
         await waitFor(() => {
@@ -176,20 +158,10 @@ describe('<DetailedPet>', () => {
 
       test('checks pet icon cat', async () => {
         // ARRANGE
-        const petAnimal: Pet = {
-          id: '123',
-          name: 'owon',
-          types: {
-            animal: false,
-            insect: false,
-            bird: false,
-            dog: false,
-            cat: true,
-          },
-        };
+        const pet = getPet('cat');
 
         // ACT
-        renderComponent({ isLoaderSuccess: true, pet: petAnimal });
+        renderComponent({ isLoaderSuccess: true, pet });
 
         // ASSERT
         await waitFor(() => {
@@ -199,20 +171,10 @@ describe('<DetailedPet>', () => {
 
       test('checks pet icon for unspecified type', async () => {
         // ARRANGE
-        const petAnimal: Pet = {
-          id: '123',
-          name: 'owon',
-          types: {
-            animal: false,
-            insect: false,
-            bird: false,
-            dog: false,
-            cat: false,
-          },
-        };
+        const pet = getPet();
 
         // ACT
-        renderComponent({ isLoaderSuccess: true, pet: petAnimal });
+        renderComponent({ isLoaderSuccess: true, pet });
 
         // ASSERT
         await waitFor(() => {
