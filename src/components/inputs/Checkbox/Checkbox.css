@@ -1,0 +1,16 @@
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  color: var(--font-color-primary);
+
+  .checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-accent-secondary);
+    cursor: pointer;
+  }
+
+  .label {
+    margin-left: 8px;
+  }
+}

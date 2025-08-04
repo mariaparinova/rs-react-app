@@ -10,5 +10,5 @@ export function useSearchTerm() {
     localStorage.setItem(SEARCH_TERM_KEY, searchTerm);
   }, [searchTerm]);
 
-  return { searchTerm, setSearchTerm };
+  return [searchTerm, setSearchTerm] as const;
 }

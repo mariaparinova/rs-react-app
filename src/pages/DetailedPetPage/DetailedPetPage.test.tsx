@@ -1,19 +1,13 @@
 import { test, describe, expect } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import { DetailedPetPage, getIcon } from './DetailedPetPage.tsx';
+import { DetailedPetPage } from './DetailedPetPage.tsx';
 import { Pet } from '../../types/pet.ts';
 import { Suspense } from 'react';
 import { ROUTES } from '../../router/routes.ts';
-import IconAnimal from '../../icons/animal.svg?react';
-import IconInsect from '../../icons/insect.svg?react';
-import IconBird from '../../icons/bird.svg?react';
-import IconDog from '../../icons/dog.svg?react';
-import IconCat from '../../icons/cat.svg?react';
-import IconUnknown from '../../icons/question-mark.svg?react';
 
-function renderComponent({ isLoaderSuccess = true } = {}) {
-  const pet: Pet = {
+function renderComponent({ isLoaderSuccess = true, pet }: { isLoaderSuccess: boolean; pet?: Pet }) {
+  const petItem: Pet = pet || {
     id: '123',
     name: 'owon',
     types: {
@@ -33,7 +27,7 @@ function renderComponent({ isLoaderSuccess = true } = {}) {
         if (!isLoaderSuccess) {
           return null;
         }
-        return pet;
+        return petItem;
       },
     },
   ];
@@ -42,7 +36,7 @@ function renderComponent({ isLoaderSuccess = true } = {}) {
     initialEntries: ['/'],
     hydrationData: {
       loaderData: {
-        '0': isLoaderSuccess ? pet : null,
+        '0': isLoaderSuccess ? petItem : null,
       },
     },
   });
@@ -55,7 +49,7 @@ function renderComponent({ isLoaderSuccess = true } = {}) {
 }
 
 describe('<DetailedPet>', () => {
-  describe('check DetailedPet when pet found', () => {
+  describe('DetailedPet when pet found', () => {
     test('checks pet name', async () => {
       // ACT
       renderComponent({ isLoaderSuccess: true });
@@ -86,6 +80,146 @@ describe('<DetailedPet>', () => {
         expect(screen.getByText(/123/i)).toBeInTheDocument();
       });
     });
+
+    describe('pet icon', () => {
+      test('checks pet icon for animal type', async () => {
+        // ARRANGE
+        const petAnimal: Pet = {
+          id: '123',
+          name: 'owon',
+          types: {
+            animal: true,
+            insect: false,
+            bird: false,
+            dog: false,
+            cat: true,
+          },
+        };
+
+        // ACT
+        renderComponent({ isLoaderSuccess: true, pet: petAnimal });
+
+        // ASSERT
+        await waitFor(() => {
+          expect(screen.getByTestId('icon-animal')).toBeInTheDocument();
+        });
+      });
+
+      test('checks pet icon for insect type', async () => {
+        // ARRANGE
+        const petAnimal: Pet = {
+          id: '123',
+          name: 'owon',
+          types: {
+            animal: false,
+            insect: true,
+            bird: false,
+            dog: false,
+            cat: true,
+          },
+        };
+
+        // ACT
+        renderComponent({ isLoaderSuccess: true, pet: petAnimal });
+
+        // ASSERT
+        await waitFor(() => {
+          expect(screen.getByTestId('icon-insect')).toBeInTheDocument();
+        });
+      });
+
+      test('checks pet icon for bird type', async () => {
+        // ARRANGE
+        const petAnimal: Pet = {
+          id: '123',
+          name: 'owon',
+          types: {
+            animal: false,
+            insect: false,
+            bird: true,
+            dog: false,
+            cat: true,
+          },
+        };
+
+        // ACT
+        renderComponent({ isLoaderSuccess: true, pet: petAnimal });
+
+        // ASSERT
+        await waitFor(() => {
+          expect(screen.getByTestId('icon-bird')).toBeInTheDocument();
+        });
+      });
+
+      test('checks pet icon dog', async () => {
+        // ARRANGE
+        const petAnimal: Pet = {
+          id: '123',
+          name: 'owon',
+          types: {
+            animal: false,
+            insect: false,
+            bird: false,
+            dog: true,
+            cat: false,
+          },
+        };
+
+        // ACT
+        renderComponent({ isLoaderSuccess: true, pet: petAnimal });
+
+        // ASSERT
+        await waitFor(() => {
+          expect(screen.getByTestId('icon-dog')).toBeInTheDocument();
+        });
+      });
+
+      test('checks pet icon cat', async () => {
+        // ARRANGE
+        const petAnimal: Pet = {
+          id: '123',
+          name: 'owon',
+          types: {
+            animal: false,
+            insect: false,
+            bird: false,
+            dog: false,
+            cat: true,
+          },
+        };
+
+        // ACT
+        renderComponent({ isLoaderSuccess: true, pet: petAnimal });
+
+        // ASSERT
+        await waitFor(() => {
+          expect(screen.getByTestId('icon-cat')).toBeInTheDocument();
+        });
+      });
+
+      test('checks pet icon for unspecified type', async () => {
+        // ARRANGE
+        const petAnimal: Pet = {
+          id: '123',
+          name: 'owon',
+          types: {
+            animal: false,
+            insect: false,
+            bird: false,
+            dog: false,
+            cat: false,
+          },
+        };
+
+        // ACT
+        renderComponent({ isLoaderSuccess: true, pet: petAnimal });
+
+        // ASSERT
+        await waitFor(() => {
+          expect(screen.getByTestId('icon-unspecified')).toBeInTheDocument();
+        });
+      });
+    });
   });
 
   test('checks DetailedPet has link to Main page', async () => {
@@ -101,7 +235,7 @@ describe('<DetailedPet>', () => {
     });
   });
 
-  describe('check DetailedPet when pet not found', () => {
+  describe('DetailedPet when pet not found', () => {
     test('checks text content', async () => {
       // ACT
       renderComponent({ isLoaderSuccess: false });
@@ -112,133 +246,5 @@ describe('<DetailedPet>', () => {
         expect(header).toBeInTheDocument();
       });
     });
-  });
-});
-
-describe('<getIcon>', () => {
-  test('checks icon when pet type is animal', () => {
-    // ARRANGE
-    const pet = {
-      id: '123',
-      name: 'owon',
-      types: {
-        animal: true,
-        insect: false,
-        bird: false,
-        dog: false,
-        cat: true,
-      },
-    };
-
-    // ACT
-    const icon = getIcon(pet);
-
-    // ASSERT
-    expect(icon).toEqual(<IconAnimal />);
-  });
-
-  test('checks icon when pet type is insect', () => {
-    // ARRANGE
-    const pet = {
-      id: '123',
-      name: 'owon',
-      types: {
-        animal: false,
-        insect: true,
-        bird: false,
-        dog: false,
-        cat: true,
-      },
-    };
-
-    // ACT
-    const icon = getIcon(pet);
-
-    // ASSERT
-    expect(icon).toEqual(<IconInsect />);
-  });
-
-  test('checks icon when pet type is bird', () => {
-    // ARRANGE
-    const pet = {
-      id: '123',
-      name: 'owon',
-      types: {
-        animal: false,
-        insect: false,
-        bird: true,
-        dog: false,
-        cat: true,
-      },
-    };
-
-    // ACT
-    const icon = getIcon(pet);
-
-    // ASSERT
-    expect(icon).toEqual(<IconBird />);
-  });
-
-  test('checks icon when pet type is dog', () => {
-    // ARRANGE
-    const pet = {
-      id: '123',
-      name: 'owon',
-      types: {
-        animal: false,
-        insect: false,
-        bird: false,
-        dog: true,
-        cat: true,
-      },
-    };
-
-    // ACT
-    const icon = getIcon(pet);
-
-    // ASSERT
-    expect(icon).toEqual(<IconDog />);
-  });
-
-  test('checks icon when pet type is cat', () => {
-    // ARRANGE
-    const pet = {
-      id: '123',
-      name: 'owon',
-      types: {
-        animal: false,
-        insect: false,
-        bird: false,
-        dog: false,
-        cat: true,
-      },
-    };
-
-    // ACT
-    const icon = getIcon(pet);
-
-    // ASSERT
-    expect(icon).toEqual(<IconCat />);
-  });
-
-  test('checks default type', () => {
-    // ARRANGE
-    const pet = {
-      id: '123',
-      name: 'owon',
-      types: {
-        animal: false,
-        insect: false,
-        bird: false,
-        dog: false,
-        cat: false,
-      },
-    };
-
-    // ACT
-    const icon = getIcon(pet);
-
-    // ASSERT
-    expect(icon).toEqual(<IconUnknown />);
   });
 });

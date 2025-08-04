@@ -2,31 +2,71 @@
 
 :root {
   --font-family-Roboto: 'Roboto', 'Inter', sans-serif;
-
-  --white-color: #ffffff;
-
   --font-color-primary: #292420;
-  --font-color-secondary: #646a5e;
+  --font-color-secondary: #6f7a63;
+  --font-color-disabled: #ffffff;
 
   --color-warning: #f72a2a;
   --color-success: #329f42;
+  --color-accent-primary: #d89b47;
+  --color-accent-secondary: #61922c;
+  --color-hover-primary: #ec8423;
+  --white-color: #f0f0f0;
+
+  --border-radius-s: 8px;
+  --border-radius-m: 24px;
+  --border-color: #d8d3c9;
 
   --bg-color-main: #ebe6dc;
   --bg-color-light-main: #efebe3;
   --bg-color-bright: #e0caab;
-  --bg-overlay-opacity-30: rgba(124, 120, 111, 0.3);
+  --bg-overlay-opacity-40: rgba(124, 120, 111, 0.4);
   --bg-overlay-opacity-80: rgba(124, 120, 111, 0.8);
 
-  --border-color: #d8d3c9;
-  --border-radius-s: 8px;
-  --border-radius-m: 24px;
+  --button-primary-bg-color: #53792b;
+  --button-primary-hover-bg-color: #648b3a;
+  --button-primary-disabled-bg-color: #adb89f;
 
-  --color-accent-primary: #d89b47;
-  --color-accent-secondary: #61922c;
-  --color-disabled: #acb89f;
-  --color-hover-primary: #ec8423;
+  --button-secondary-text-color: #53792b;
+  --button-secondary-hover-text-color: #7da452;
 
-  --shadow: 0 0 23px 0 rgba(214, 171, 84, 0.2);
+  --button-icon-font-color: #292420;
+  --button-icon-border-color: #d8d3c9;
+  --button-icon-bg-color: #f0f0f0;
+  --button-icon-disabled-font-color: #acb89f;
+  --button-icon-disabled-bg-color: #efebe3;
+  --button-icon-disabled-border-color: #acb89f;
+}
+
+html.dark-theme {
+  --white-color: #e1e1e1;
+  --color-accent-secondary: #7da452;
+
+  --bg-overlay-opacity-40: rgba(69, 70, 69, 0.4);
+
+  --font-color-primary: #e1e1e1;
+  --font-color-disabled: #646a5e;
+
+  --bg-color-main: #23252f;
+  --bg-color-light-main: #30323f;
+  --bg-color-bright: #16181d;
+
+  --bg-overlay-opacity-80: rgba(22, 24, 29, 0.8);
+
+  --button-primary-bg-color: #53792b;
+  --button-primary-hover-bg-color: #648b3a;
+  --button-primary-disabled-color: #969993;
+  --button-primary-disabled-bg-color: #45503c;
+
+  --button-icon-font-color: #e1e1e1;
+  --button-icon-bg-color: #23252f;
+  --button-icon-border-color: #a27740;
+
+  --button-icon-disabled-font-color: #3e4045;
+  --button-icon-disabled-bg-color: #262938;
+  --button-icon-disabled-border-color: #3e4045;
+
+  --border-color: #505259;
 }
 
 * {
@@ -53,6 +93,7 @@ h1 {
   font-size: 36px;
   font-weight: 700;
   font-family: var(--font-family-Roboto);
+  color: var(--font-color-primary);
 }
 
 h2 {
@@ -81,26 +122,4 @@ h4 {
 
 .font-size-xs {
   font-size: 12px;
-}
-
-.font-disabled {
-  color: var(--color-disabled);
-}
-
-#root {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  min-height: 100vh;
-  max-width: 736px;
-  color: var(--font-color-primary);
-  font-family: var(--font-family-Roboto);
-  line-height: 1.5em;
-  background-color: var(--bg-color-main);
-  overflow-x: hidden;
-}
-
-main {
-  flex-grow: 1;
 }

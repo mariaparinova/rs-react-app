@@ -1,4 +1,4 @@
-import { PetDto } from '../../src/api-repositories/pets/pets.types.ts';
+import { PetDto } from '../../api-repositories/pets/pets.types.ts';
 
 export const pets: PetDto[] = [
   {

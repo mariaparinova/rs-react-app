@@ -1,5 +1,5 @@
-import { getPets } from './pets';
-import { petsApiServerMock } from '../../../test-utils/mock-pets-api/pets-api-server.mock.ts';
+import { getPetById, getPets } from './pets';
+import { petsApiServerMock } from '../../test-utils/mock-pets-api/pets-api-server.mock.ts';
 import { expect, describe, beforeAll, afterEach, afterAll, test } from 'vitest';
 import { http, HttpResponse } from 'msw';
 
@@ -246,5 +246,32 @@ describe('getPets', () => {
 
     //ASSERT
     await expect(getPets({})).rejects.toThrow('Error during fetching pets');
+  });
+});
+
+describe('getPetById', () => {
+  beforeAll(() => petsApiServerMock.listen());
+  afterEach(() => petsApiServerMock.resetHandlers());
+  afterAll(() => petsApiServerMock.close());
+
+  test('returns pet with specified id', async () => {
+    // ARRANGE
+    const pet = {
+      id: 'ANMA0000027729',
+      name: 'Alligator',
+      types: {
+        animal: true,
+        insect: false,
+        bird: false,
+        dog: false,
+        cat: false,
+      },
+    };
+
+    // ACT
+    const response = await getPetById({ id: pet.id });
+
+    // ASSERT
+    expect(response).toEqual(pet);
   });
 });

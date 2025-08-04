@@ -22,16 +22,9 @@
     transition: border-color 0.3s;
     cursor: pointer;
 
-    h4 {
-      text-align: center;
-    }
-
     &:hover {
       border-color: var(--color-accent-primary);
-
-      h4 {
-        color: var(--color-accent-secondary);
-      }
+      color: var(--color-accent-secondary);
     }
   }
 }

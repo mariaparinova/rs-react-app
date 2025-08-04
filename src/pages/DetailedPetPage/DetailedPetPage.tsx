@@ -11,23 +11,6 @@ import IconCat from '../../icons/cat.svg?react';
 import IconUnknown from '../../icons/question-mark.svg?react';
 import IconLion from '../../icons/lion.svg?react';
 
-export const getIcon = (pet: Pet) => {
-  switch (true) {
-    case pet.types.animal:
-      return <IconAnimal />;
-    case pet.types.insect:
-      return <IconInsect />;
-    case pet.types.bird:
-      return <IconBird />;
-    case pet.types.dog:
-      return <IconDog />;
-    case pet.types.cat:
-      return <IconCat />;
-    default:
-      return <IconUnknown />;
-  }
-};
-
 const getTypes = (pet: Pet): string => {
   const types = Object.entries(pet.types).reduce((acc, [key, val]) => (val ? `${acc} ${key}` : acc), '');
   return types ? types : 'unspecified';
@@ -36,6 +19,23 @@ const getTypes = (pet: Pet): string => {
 export function DetailedPetPage() {
   const pet: Pet | null = useLoaderData<Pet>();
   const location = useLocation();
+
+  const getIcon = () => {
+    switch (true) {
+      case pet.types.animal:
+        return <IconAnimal data-testid="icon-animal" />;
+      case pet.types.insect:
+        return <IconInsect data-testid="icon-insect" />;
+      case pet.types.bird:
+        return <IconBird data-testid="icon-bird" />;
+      case pet.types.dog:
+        return <IconDog data-testid="icon-dog" />;
+      case pet.types.cat:
+        return <IconCat data-testid="icon-cat" />;
+      default:
+        return <IconUnknown data-testid="icon-unspecified" />;
+    }
+  };
 
   const renderBgOverlay = () => {
     return (
@@ -66,7 +66,7 @@ export function DetailedPetPage() {
   const renderDetails = () => {
     return (
       <div className="details">
-        {getIcon(pet)}
+        {getIcon()}
         {getTypes(pet)}
         <div className="pet-id font-size-xs">{`id: ${pet.id}`}</div>
       </div>

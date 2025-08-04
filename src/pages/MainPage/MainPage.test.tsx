@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { MainPage } from './MainPage.tsx';
 import { getPets } from '../../api-repositories/pets/pets.ts';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import { SEARCH_TERM_KEY } from './useSearchTerm.hook.ts';
+import { SEARCH_TERM_KEY } from '../../hooks/useSearchTerm.hook.ts';
 
 const pets = [
   {
@@ -75,7 +75,7 @@ describe('<MainPage>', () => {
     vi.clearAllMocks();
   });
 
-  describe('Top controls', () => {
+  describe('<TopControls>', () => {
     test('checks MainPage renders Top controls element', async () => {
       // ACT
       renderComponent();
@@ -122,7 +122,7 @@ describe('<MainPage>', () => {
     });
   });
 
-  describe('Content container', () => {
+  describe('content container', () => {
     test('checks MainPage contains Content container element', async () => {
       // ACT
       renderComponent();
@@ -195,6 +195,101 @@ describe('<MainPage>', () => {
       // ASSERT
       await waitFor(() => {
         expect(screen.getByText('No pets found')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('<SelectedItemsManager>', () => {
+    describe('visibility', () => {
+      test('checks SelectedItemsManager is not visible initially', async () => {
+        // ACT
+        renderComponent();
+        await waitFor(() => {
+          expect(screen.getByText(pets[0].name)).toBeInTheDocument();
+        });
+
+        // ASSERT
+        expect(screen.getByTestId('selected-items-manager')).toHaveClass('hidden');
+      });
+
+      test('checks SelectedItemsManager is not visible when all selected pets got unselected', async () => {
+        // ACT
+        renderComponent();
+        await waitFor(() => {
+          const pet_1 = screen.getAllByTestId('pet-card')[0];
+          const pet_2 = screen.getAllByTestId('pet-card')[1];
+          const pet_3 = screen.getAllByTestId('pet-card')[2];
+
+          userEvent.click(pet_3.querySelector('input[type="checkbox"]')!);
+          userEvent.click(pet_2.querySelector('input[type="checkbox"]')!);
+          userEvent.click(pet_1.querySelector('input[type="checkbox"]')!);
+
+          userEvent.click(pet_1.querySelector('input[type="checkbox"]')!);
+          userEvent.click(pet_2.querySelector('input[type="checkbox"]')!);
+          userEvent.click(pet_3.querySelector('input[type="checkbox"]')!);
+        });
+
+        //ASSERT
+        await waitFor(() => {
+          const selectedItemsManager = screen.getByTestId('selected-items-manager');
+          expect(selectedItemsManager).toHaveClass('hidden');
+        });
+      });
+
+      test('checks SelectedItemsManager is visible when at least one pet is selected', async () => {
+        // ACT
+        renderComponent();
+        await waitFor(() => {
+          const pet = screen.getAllByTestId('pet-card')[0];
+          const checkBox = pet.querySelector('input[type="checkbox"]')!;
+
+          userEvent.click(checkBox);
+        });
+
+        //ASSERT
+        await waitFor(() => {
+          const selectedItemsManager = screen.getByTestId('selected-items-manager');
+          expect(selectedItemsManager).not.toHaveClass('hidden');
+        });
+      });
+    });
+
+    describe('text content', () => {
+      test('checks SelectedItemsManager has correct text content when one pet is selected', async () => {
+        // ACT
+        renderComponent();
+        await waitFor(() => {
+          const pet = screen.getAllByTestId('pet-card')[0];
+          const checkBox = pet.querySelector('input[type="checkbox"]')!;
+
+          userEvent.click(checkBox);
+        });
+
+        //ASSERT
+        await waitFor(() => {
+          const selectedItemsManager = screen.getByTestId('selected-items-manager');
+          expect(selectedItemsManager).toHaveTextContent('selected items: 1');
+        });
+      });
+
+      test('checks SelectedItemsManager has correct text content when three pets are selected', async () => {
+        // ACT
+        renderComponent();
+        await waitFor(() => {
+          const pet_1 = screen.getAllByTestId('pet-card')[0];
+          const pet_2 = screen.getAllByTestId('pet-card')[1];
+          const pet_3 = screen.getAllByTestId('pet-card')[2];
+
+          userEvent.click(pet_1.querySelector('input[type="checkbox"]')!);
+          userEvent.click(pet_2.querySelector('input[type="checkbox"]')!);
+          userEvent.click(pet_3.querySelector('input[type="checkbox"]')!);
+        });
+
+        //ASSERT
+        await waitFor(() => {
+          const selectedItemsManager = screen.getByTestId('selected-items-manager');
+          expect(selectedItemsManager).toHaveTextContent('selected items: 3');
+        });
       });
     });
   });

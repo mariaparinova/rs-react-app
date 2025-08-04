@@ -13,3 +13,7 @@
     outline: none;
   }
 }
+
+.input {
+  background-color: var(--white-color);
+}
