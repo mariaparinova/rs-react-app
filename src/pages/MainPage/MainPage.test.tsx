@@ -5,6 +5,7 @@ import { MainPage } from './MainPage.tsx';
 import { getPets } from '../../api-repositories/pets/pets.ts';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { SEARCH_TERM_KEY } from '../../hooks/useSearchTerm.hook.ts';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const pets = [
   {
@@ -61,7 +62,13 @@ function renderComponent() {
     initialEntries: ['/'],
   });
 
-  render(<RouterProvider router={router} />);
+  const queryClient = new QueryClient();
+
+  render(
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
 vi.mock('../../api-repositories/pets/pets.ts', () => {

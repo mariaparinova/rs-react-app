@@ -32,7 +32,7 @@ export interface GetPetsBody {
   animals: PetDto[];
 }
 
-export interface getPetsResult {
+export interface GetPetsResult {
   totalPages: number;
   pets: Pet[];
 }
