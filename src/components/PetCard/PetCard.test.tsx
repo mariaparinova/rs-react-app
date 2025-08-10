@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest';
 describe('<PetCard>', () => {
   test('check pet card has pet name', () => {
     // ARRANGE
-    const pet: Pet = {
+    const pet = {
       name: 'Horse',
     } as Pet;
 
@@ -19,7 +19,7 @@ describe('<PetCard>', () => {
 
   test('check pet card has checkbox', () => {
     // ARRANGE
-    const pet: Pet = {
+    const pet = {
       name: 'Horse',
     } as Pet;
 

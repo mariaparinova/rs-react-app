@@ -1,10 +1,10 @@
-import { GetPetsBody, GetPetsParams, getPetsResult, PetDto } from './pets.types.ts';
+import { GetPetsBody, GetPetsParams, GetPetsResult, PetDto } from './pets.types.ts';
 import { convertPetDtoToPet } from '../../services/petService.ts';
 import { Pet } from '../../types/pet.ts';
 
 const BASE_URL = 'https://stapi.co/api';
 
-export const getPets = async (params: GetPetsParams): Promise<getPetsResult> => {
+export const getPets = async (params: GetPetsParams): Promise<GetPetsResult> => {
   const { name, pageNumber, pageSize } = params;
   const url = `${BASE_URL}/v1/rest/animal/search`;
   const queryParams = new URLSearchParams();

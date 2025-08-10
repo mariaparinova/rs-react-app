@@ -5,6 +5,7 @@ import { MainPage } from './MainPage.tsx';
 import { getPets } from '../../api-repositories/pets/pets.ts';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { SEARCH_TERM_KEY } from '../../hooks/useSearchTerm.hook.ts';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const pets = [
   {
@@ -61,7 +62,13 @@ function renderComponent() {
     initialEntries: ['/'],
   });
 
-  render(<RouterProvider router={router} />);
+  const queryClient = new QueryClient();
+
+  render(
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
 vi.mock('../../api-repositories/pets/pets.ts', () => {
@@ -216,17 +223,16 @@ describe('<MainPage>', () => {
         // ACT
         renderComponent();
         await waitFor(() => {
-          const pet_1 = screen.getAllByTestId('pet-card')[0];
-          const pet_2 = screen.getAllByTestId('pet-card')[1];
-          const pet_3 = screen.getAllByTestId('pet-card')[2];
+          const cards = screen.getAllByTestId('pet-card').slice(0, 3);
+          const checkboxSelector = 'input[type="checkbox"]';
 
-          userEvent.click(pet_3.querySelector('input[type="checkbox"]')!);
-          userEvent.click(pet_2.querySelector('input[type="checkbox"]')!);
-          userEvent.click(pet_1.querySelector('input[type="checkbox"]')!);
+          cards.forEach((card) => {
+            userEvent.click(card.querySelector(checkboxSelector)!);
+          });
 
-          userEvent.click(pet_1.querySelector('input[type="checkbox"]')!);
-          userEvent.click(pet_2.querySelector('input[type="checkbox"]')!);
-          userEvent.click(pet_3.querySelector('input[type="checkbox"]')!);
+          cards.forEach((card) => {
+            userEvent.click(card.querySelector(checkboxSelector)!);
+          });
         });
 
         //ASSERT
