@@ -1,18 +1,19 @@
 'use client';
 
-import styles from './page.module.css';
-import { useSearchTerm } from '../hooks/useSearchTerm.ts';
+import styles from '../page.module.css';
+import { useSearchTerm } from '../../hooks/useSearchTerm.ts';
 import { ReactNode, useMemo } from 'react';
-import { useQueryPets } from '../hooks/useQueryPets.ts';
-import { PetCard } from '../components/PetCard/PetCard.tsx';
-import { Button } from '../components/Button/Button.tsx';
-import { ButtonStyle } from '../components/Button/Button.types.ts';
-import TopControls from './(main)/TopControls/TopControls.tsx';
-import Spinner from '../components/Spinner/Spinner.tsx';
-import { Pagination } from '../components/Pagination/Pagination.tsx';
-import SelectedItemsManager from './(main)/SelectedItemsManager/SelectedItemsManager.tsx';
-import { useRouter } from 'next/navigation';
-import { useSearchParams } from '../hooks/useSearchParams.ts';
+import { useQueryPets } from '../../hooks/useQueryPets.ts';
+import { PetCard } from '../../components/PetCard/PetCard.tsx';
+import { Button } from '../../components/Button/Button.tsx';
+import { ButtonStyle } from '../../components/Button/Button.types.ts';
+import TopControls from '../(main)/TopControls/TopControls.tsx';
+import Spinner from '../../components/Spinner/Spinner.tsx';
+import { Pagination } from '../../components/Pagination/Pagination.tsx';
+import SelectedItemsManager from '../(main)/SelectedItemsManager/SelectedItemsManager.tsx';
+import { useRouter } from 'i18n/navigation';
+import { useSearchParams } from '../../hooks/useSearchParams.ts';
+import { useTranslations } from 'next-intl';
 
 const ITEMS_PER_PAGE = 10;
 const SEARCH_PARAMS_PAGE = 'page';
@@ -63,10 +64,12 @@ function MainPage({ children }: { children: ReactNode }) {
     setActivePage(1);
   };
 
+  const t = useTranslations('MainPage');
+
   return (
     <div className={styles.mainPage}>
       <Button style={ButtonStyle.Secondary} isDisabled={false} onClick={invalidateQueries}>
-        Clear cache
+        {t('clearCache')}
       </Button>
       <TopControls initialSearchTerm={searchTerm} onSearchTermChange={changeSearchTerm} isLoading={isPending} />
       <div className={styles.contentContainer}>

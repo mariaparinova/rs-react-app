@@ -1,4 +1,5 @@
-import { usePathname, useRouter, useSearchParams as useSearchParamsNextJs } from 'next/navigation';
+import { useSearchParams as useSearchParamsNextJs } from 'next/navigation';
+import { useRouter, usePathname } from 'i18n/navigation';
 
 export function useSearchParams() {
   const urlSearchParams = useSearchParamsNextJs();

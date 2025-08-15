@@ -6,6 +6,7 @@ import { InputSearch } from '../../../components/inputs/InputSearch/InputSearch.
 import { Button } from '../../../components/Button/Button.tsx';
 import { TopControlsProps } from './TopControls.types.ts';
 import { ButtonStyle, ButtonType } from '../../../components/Button/Button.types.ts';
+import { useTranslations } from 'next-intl';
 
 export default function TopControls({ isLoading, onSearchTermChange, initialSearchTerm }: TopControlsProps) {
   const [searchTerm, setSearchTerm] = useState<string>(initialSearchTerm);
@@ -19,17 +20,19 @@ export default function TopControls({ isLoading, onSearchTermChange, initialSear
     setSearchTerm(event.target.value);
   };
 
+  const t = useTranslations('MainPage');
+
   return (
     <form className={styles.topControls} onSubmit={handleBtnClick}>
       <InputSearch
         id="search-input"
-        placeholder="Search by name"
+        placeholder={t('placeholder')}
         value={searchTerm}
         isDisabled={isLoading}
         onChange={handleInputChanges}
       />
       <Button style={ButtonStyle.Primary} isDisabled={isLoading} type={ButtonType.Submit}>
-        Search
+        {t('search')}
       </Button>
     </form>
   );

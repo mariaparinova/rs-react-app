@@ -9,11 +9,23 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-.themeContainer {
+.optionsContainer {
   position: absolute;
   right: 4em;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 20px;
+}
+
+.pointer {
   cursor: pointer;
+}
+
+.optionsItem {
+  display: flex;
+  gap: 4px;
+}
+
+.header a {
+  text-transform: uppercase;
 }
