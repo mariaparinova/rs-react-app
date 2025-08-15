@@ -1,5 +1,5 @@
-import './Spinner.css';
+import styles from './Spinner.module.css';
 
-export function Spinner() {
-  return <h4 className="spinner">Loading...</h4>;
+export default function Spinner() {
+  return <h4 className={styles.spinner}>Loading...</h4>;
 }

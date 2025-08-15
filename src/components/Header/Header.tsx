@@ -1,22 +1,25 @@
-import './Header.css';
-import { Link } from 'react-router-dom';
-import { ROUTES } from '../../router/routes.ts';
-import { Theme, ThemeContext } from '../../context/Theme.context.ts';
+'use client';
+
+import styles from './Header.module.css';
+import Link from 'next/link';
+import { Theme, ThemeContext } from '../../app/theme-provider.tsx';
 import { useContext } from 'react';
-import IconThemeLight from '../../icons/theme-light.svg?react';
-import IconThemeDark from '../../icons/theme-dark.svg?react';
+import IconLightTheme from '../../../public/icons/theme-light.svg';
+import IconDarkTheme from '../../../public/icons/theme-dark.svg';
 
 export function Header() {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useContext(ThemeContext);
 
   return (
-    <header className="header" data-testid="header">
-      <Link to={ROUTES.ROOT}>PETS</Link>
-      <Link to={ROUTES.ABOUT}>ABOUT</Link>
-      <div className="theme-container" onClick={toggleTheme}>
+    <header className={styles.header}>
+      <Link href="/">PETS</Link>
+      <Link href="/about">ABOUT</Link>
+      <div className={styles.themeContainer} onClick={() => setTheme(theme === Theme.Light ? Theme.Dark : Theme.Light)}>
         <span>Theme</span>
-        {theme === Theme.Light ? <IconThemeLight /> : <IconThemeDark />}
+        {theme === Theme.Light ? <IconLightTheme /> : <IconDarkTheme />}
       </div>
     </header>
   );
 }
+
+export default Header;

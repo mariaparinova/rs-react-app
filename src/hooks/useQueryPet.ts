@@ -1,9 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getPetById } from '../api-repositories/pets/pets.ts';
-import { useParams } from 'react-router-dom';
 
-export function useQueryPet() {
-  const { id } = useParams();
+export function useQueryPet(id: string) {
   const queryClient = useQueryClient();
 
   const { isPending, isError, data, error } = useQuery({
