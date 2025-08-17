@@ -17,6 +17,7 @@ import { Button } from '../../../../components/Button/Button.tsx';
 import { Link } from 'i18n/navigation.ts';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'i18n/navigation.ts';
 
 const getTypes = (pet: Pet): string => {
   const types = Object.entries(pet.types).reduce((acc, [key, val]) => (val ? `${acc} ${key}` : acc), '');
@@ -28,6 +29,7 @@ export default function DetailedPetPage() {
   const searchParams = useSearchParams();
   const { isPending, data: pet, error, invalidateQueries } = useQueryPet(id);
   const t = useTranslations('Pets');
+  const router = useRouter();
 
   const getIcon = () => {
     switch (true) {
@@ -90,9 +92,12 @@ export default function DetailedPetPage() {
   };
 
   return (
-    <div className={`${styles.detailedPet} ${!pet && styles.notFound}`}>
-      {renderIconClose()}
-      {renderDetails()}
-    </div>
+    <>
+      <div onClick={() => router.push(`/?${searchParams?.toString()}`)} className={styles.bgOverlay}></div>
+      <div className={`${styles.detailedPet} ${!pet && styles.notFound}`}>
+        {renderIconClose()}
+        {renderDetails()}
+      </div>
+    </>
   );
 }
