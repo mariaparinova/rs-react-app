@@ -1,8 +1,8 @@
 import styles from './SelectedItemsManager.module.css';
-import ButtonStyles from '../../../components/Button/Button.module.css';
-import { Button } from '../../../components/Button/Button.tsx';
-import { ButtonStyle } from '../../../components/Button/Button.types.ts';
-import { useCatalogStore } from '../../../store/MainPageStore/MainPageStore.ts';
+import ButtonStyles from '../../../Button/Button.module.css';
+import { Button } from '../../../Button/Button.tsx';
+import { ButtonStyle } from '../../../Button/Button.types.ts';
+import { useCatalogStore } from '../../../../store/MainPageStore/MainPageStore.ts';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';

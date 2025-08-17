@@ -2,10 +2,10 @@
 
 import styles from './TopControls.module.css';
 import { ChangeEvent, FormEventHandler, useState } from 'react';
-import { InputSearch } from '../../../components/inputs/InputSearch/InputSearch.tsx';
-import { Button } from '../../../components/Button/Button.tsx';
+import { InputSearch } from '../../../inputs/InputSearch/InputSearch.tsx';
+import { Button } from '../../../Button/Button.tsx';
 import { TopControlsProps } from './TopControls.types.ts';
-import { ButtonStyle, ButtonType } from '../../../components/Button/Button.types.ts';
+import { ButtonStyle, ButtonType } from '../../../Button/Button.types.ts';
 import { useTranslations } from 'next-intl';
 
 export default function TopControls({ isLoading, onSearchTermChange, initialSearchTerm }: TopControlsProps) {
