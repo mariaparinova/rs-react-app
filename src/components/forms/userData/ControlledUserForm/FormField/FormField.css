@@ -1,0 +1,19 @@
+.label {
+  display: inline-block;
+  margin-right: 8px;
+  min-width: 70px;
+  color: var(--font-color-secondary);
+  font-family: var(--font-family-Roboto);
+}
+
+.helper-text {
+  height: 16px;
+  font-size: 14px;
+  text-align: left;
+  color: var(--color-waring);
+}
+
+.input.hidden {
+  width: 0;
+  height: 0;
+}

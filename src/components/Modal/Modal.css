@@ -1,0 +1,28 @@
+.bg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  background-color: var(--color-bg-30);
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 44px;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-xs);
+
+  .button.close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
