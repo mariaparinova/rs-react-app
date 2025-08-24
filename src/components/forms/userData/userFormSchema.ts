@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { Gender } from '../../../../types/user.ts';
-import { Country } from '../../../../types/country.ts';
+import { Gender } from '../../../types/user.ts';
+import { Country } from '../../../types/country.ts';
 
 export type UserFormData = z.infer<typeof UserFormSchema>;
 

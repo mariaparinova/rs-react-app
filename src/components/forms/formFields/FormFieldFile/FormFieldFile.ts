@@ -1,11 +1,12 @@
 import { ChangeEventHandler, FocusEventHandler, Ref } from 'react';
 
-export interface FormFieldCheckboxProps {
+export interface FormFieldFileProps {
   id: string;
   label: string;
   errors: Record<string, { message?: string }>;
   name: string;
-  onChange: ChangeEventHandler;
+  onChange?: ChangeEventHandler;
   ref?: Ref<HTMLInputElement>;
   onBlur?: FocusEventHandler<HTMLInputElement>;
+  className?: string;
 }

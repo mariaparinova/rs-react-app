@@ -9,6 +9,7 @@
   --color-white: #ffffff;
   --color-disabled: #e0e8e9;
   --color-waring: #f72a2a;
+  --color-success: #5ba908;
   --color-bg-30: rgba(3, 6, 6, 0.3);
 
   --border-radius-xs: 4px;
@@ -37,6 +38,7 @@ h4 {
 }
 
 body {
+  font-family: var(--font-family-Roboto);
   color: var(--font-color-primary);
 }
 
@@ -48,5 +50,11 @@ body {
   .button.submit {
     align-self: center;
     margin-top: 12px;
+  }
+
+  .success {
+    height: 20px;
+    text-align: center;
+    color: var(--color-success);
   }
 }

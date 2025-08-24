@@ -15,4 +15,20 @@
       margin-left: 12px;
     }
   }
+
+  .card-item.img {
+    align-items: start;
+
+    .img-content {
+      margin-left: 12px;
+    }
+  }
+}
+
+.card.uncontrolled {
+  border: 1px solid #fc8b23;
+}
+
+.card.controlled {
+  border: 1px solid #5ba908;
 }

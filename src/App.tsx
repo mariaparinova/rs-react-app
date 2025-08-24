@@ -4,20 +4,31 @@ import { Modal } from './components/Modal/Modal.tsx';
 import { Card } from './components/Card/Card.tsx';
 import { Button, ButtonStyle } from './components/Button/Button.tsx';
 import { useUserStore } from './store/user/userStore.ts';
-import { FormType } from './store/user/userStore.types.ts';
 import { UncontrolledUserForm } from './components/forms/userData/UncontrolledUserForm/UncontrolledUserForm.tsx';
 import { ControlledUserForm } from './components/forms/userData/ControlledUserForm/ControlledUserForm.tsx';
 
+enum FormType {
+  Uncontrolled = 'uncontrolled',
+  Controlled = 'controlled',
+}
+
 export function App() {
   const [isOpen, setIsOpen] = useState(false);
-  const { userByUncontrolledForm, userByControlledForm } = useUserStore();
+  const { user } = useUserStore();
   const [currentFormType, setCurrentFormType] = useState<FormType | undefined>(undefined);
+  const [lastUpdatedByFormType, setLastUpdatedByFormType] = useState<FormType | undefined>(undefined);
+
+  const closeForm = () => {
+    setTimeout(() => setIsOpen(false), 500);
+    const changingByFormType = currentFormType === FormType.Uncontrolled ? FormType.Uncontrolled : FormType.Controlled;
+    setLastUpdatedByFormType(changingByFormType);
+  };
 
   return (
     <div className="app">
       <div className="content-container">
-        <div className="content-item uncontrolled">
-          <Card user={userByUncontrolledForm}></Card>
+        <div className="content-item">
+          <Card className={lastUpdatedByFormType} user={user} />
           <Button
             style={ButtonStyle.Secondary}
             onClick={() => {
@@ -27,9 +38,6 @@ export function App() {
           >
             open uncontrolled form
           </Button>
-        </div>
-        <div className="content-item controlled">
-          <Card user={userByControlledForm}></Card>
           <Button
             style={ButtonStyle.Secondary}
             onClick={() => {
@@ -42,7 +50,11 @@ export function App() {
         </div>
       </div>
       <Modal isOpen={isOpen} handleClose={() => setIsOpen(false)}>
-        {currentFormType === FormType.Uncontrolled ? <UncontrolledUserForm /> : <ControlledUserForm />}
+        {currentFormType === FormType.Uncontrolled ? (
+          <UncontrolledUserForm handleSubmit={closeForm} />
+        ) : (
+          <ControlledUserForm onSubmitHandler={closeForm} />
+        )}
       </Modal>
     </div>
   );

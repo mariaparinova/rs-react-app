@@ -29,8 +29,9 @@ export function Card(props: CardProps) {
         <h4>Country:</h4>
         <span className="text-content"> {user?.country}</span>
       </div>
-      <div className="card-item">
+      <div className="card-item img">
         <h4>Picture:</h4>
+        {user?.picture && <img className="img-content" src={user?.picture} alt="user-picture" />}
       </div>
     </div>
   );

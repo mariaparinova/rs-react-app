@@ -6,7 +6,7 @@ export interface FormFieldDatalistProps {
   values: string[];
   errors: Record<string, { message?: string }>;
   name: string;
-  onChange: ChangeEventHandler;
+  onChange?: ChangeEventHandler;
   ref?: Ref<HTMLInputElement>;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   selectedValue?: string;
