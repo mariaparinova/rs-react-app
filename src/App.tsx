@@ -1,11 +1,13 @@
 import './App.css';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Modal } from './components/Modal/Modal.tsx';
 import { Card } from './components/Card/Card.tsx';
 import { Button, ButtonStyle } from './components/Button/Button.tsx';
 import { useUserStore } from './store/user/userStore.ts';
 import { UncontrolledUserForm } from './components/forms/userData/UncontrolledUserForm/UncontrolledUserForm.tsx';
 import { ControlledUserForm } from './components/forms/userData/ControlledUserForm/ControlledUserForm.tsx';
+import { User } from './types/user.ts';
+import { InitUserFormData } from './components/forms/userData/userFormSchema.ts';
 
 enum FormType {
   Uncontrolled = 'uncontrolled',
@@ -14,15 +16,35 @@ enum FormType {
 
 export function App() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
   const [currentFormType, setCurrentFormType] = useState<FormType | undefined>(undefined);
   const [lastUpdatedByFormType, setLastUpdatedByFormType] = useState<FormType | undefined>(undefined);
 
-  const closeForm = () => {
+  const closeForm = (params: { user: User }) => {
+    const { user } = params;
+    setUser({ user });
+
     setTimeout(() => setIsOpen(false), 500);
+
     const changingByFormType = currentFormType === FormType.Uncontrolled ? FormType.Uncontrolled : FormType.Controlled;
     setLastUpdatedByFormType(changingByFormType);
   };
+
+  const initFormData: InitUserFormData | undefined = useMemo(() => {
+    if (!user) {
+      return;
+    }
+
+    return {
+      name: user.name,
+      age: user.age,
+      email: user.email,
+      password: user.password,
+      confirmPassword: user.password,
+      gender: user.gender,
+      country: user.country,
+    };
+  }, [user]);
 
   return (
     <div className="app">
@@ -51,9 +73,9 @@ export function App() {
       </div>
       <Modal isOpen={isOpen} handleClose={() => setIsOpen(false)}>
         {currentFormType === FormType.Uncontrolled ? (
-          <UncontrolledUserForm handleSubmit={closeForm} />
+          <UncontrolledUserForm initFormData={initFormData} submitHandler={closeForm} />
         ) : (
-          <ControlledUserForm onSubmitHandler={closeForm} />
+          <ControlledUserForm initFormData={initFormData} submitHandler={closeForm} />
         )}
       </Modal>
     </div>

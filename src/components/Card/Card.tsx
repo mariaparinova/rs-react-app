@@ -4,7 +4,7 @@ import type { CardProps } from './Card.ts';
 export function Card(props: CardProps) {
   const { user, className = '' } = props;
   return (
-    <div className={`card ${className}`}>
+    <div className={`card ${className}`} data-testid="card">
       <div className="card-item">
         <h4>Name:</h4>
         <span className="text-content"> {user?.name}</span>

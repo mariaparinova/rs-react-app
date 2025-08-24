@@ -1,28 +1,45 @@
 import { z } from 'zod';
 import { Gender } from '../../../types/user.ts';
 import { Country } from '../../../types/country.ts';
+import {
+  MAST_START_FROM_UPPERCASE,
+  MAX_SIZE_5MB,
+  MUST_ACCEPT_TERMS,
+  MUST_ADD_PICTURE,
+  MUST_BE_JPG_OR_PNG,
+  MUST_BE_NUMBER,
+  MUST_BE_POSITIVE,
+  MUST_CONFIRM_PASSWORD,
+  MUST_CONTAIN_CHARACTERS,
+  MUST_SELECT_COUNTRY,
+  MUST_SELECT_GENDER,
+  PASSWORDS_MUST_MATCH,
+} from '../../../constants/validation-messages.ts';
 
 export type UserFormData = z.infer<typeof UserFormSchema>;
+
+export type InitUserFormData = Pick<
+  UserFormData,
+  'name' | 'age' | 'email' | 'password' | 'confirmPassword' | 'gender' | 'country'
+>;
 
 const MAX_IMG_SIZE = 5 * 1024 * 1024;
 
 export const UserFormSchema = z
   .object({
-    name: z.string().regex(/^[A-Z][A-Za-z]*$/, { message: 'Must start from uppercase letter' }),
-    age: z.number({ message: 'Must be a number' }).nonnegative({ message: 'Must be positive' }),
+    name: z.string().regex(/^[A-Z][A-Za-z]*$/, { message: MAST_START_FROM_UPPERCASE }),
+    age: z.number({ message: MUST_BE_NUMBER }).nonnegative({ message: MUST_BE_POSITIVE }),
     email: z.email(),
     password: z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{4,}$/, {
-      message: 'Must contain 0-9, a-z, A-Z one of !@#$%^&*()_+',
+      message: MUST_CONTAIN_CHARACTERS,
     }),
-    confirmPassword: z.string().min(1, { message: 'Please confirm password' }),
-    gender: z.enum([Gender.Male, Gender.Female], { message: 'Gender must be selected' }),
-    termsAndConditions: z
-      .boolean()
-      .refine((value) => value === true, { message: 'Please accept terms and conditions' }),
+    confirmPassword: z.string().min(1, { message: MUST_CONFIRM_PASSWORD }),
+    gender: z.enum([Gender.Male, Gender.Female], { message: MUST_SELECT_GENDER }),
+    termsAndConditions: z.boolean().refine((value) => value === true, { message: MUST_ACCEPT_TERMS }),
     picture: z
-      .instanceof(FileList, { message: 'Please add a picture' })
+      .instanceof(FileList, { message: MUST_ADD_PICTURE })
       .refine((fileList) => (fileList.item(0)?.size || 0) <= MAX_IMG_SIZE, {
-        message: 'Max size is 5 Mb',
+        message: MAX_SIZE_5MB,
       })
       .refine(
         (fileList) => {
@@ -35,13 +52,13 @@ export const UserFormSchema = z
           return ['image/jpeg', 'image/png'].includes(fileType);
         },
         {
-          message: 'Please upload an image in .jpg or .png format',
+          message: MUST_BE_JPG_OR_PNG,
         }
       ),
-    country: z.enum(Country, { message: 'Country must be selected from the list' }),
+    country: z.enum(Country, { message: MUST_SELECT_COUNTRY }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'Must be the same as a password',
+    message: PASSWORDS_MUST_MATCH,
     path: ['confirmPassword'],
     when(payload) {
       return UserFormSchema.pick({ password: true, confirmPassword: true }).safeParse(payload.value).success;

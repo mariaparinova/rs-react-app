@@ -4,6 +4,7 @@ export enum InputTyp {
   Text = 'text',
   Password = 'password',
   Number = 'number',
+  Email = 'email',
 }
 
 export interface FormFieldProps {

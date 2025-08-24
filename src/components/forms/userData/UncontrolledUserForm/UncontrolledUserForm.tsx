@@ -10,13 +10,12 @@ import { FormFieldCheckbox } from '../../formFields/FormFieldCheckbox/FormFieldC
 import { FormFieldFile } from '../../formFields/FormFieldFile/FormFieldFile.tsx';
 import { UserFormSchema } from '../userFormSchema.ts';
 import { imgToBase64 } from '../../../../utils/imgToBase64.ts';
-import { useUserStore } from '../../../../store/user/userStore.ts';
+import { UncontrolledUserFormProps } from './UncontrolledUserForm.ts';
 
-export function UncontrolledUserForm(props: { handleSubmit: () => void }) {
-  const { handleSubmit } = props;
+export function UncontrolledUserForm(props: UncontrolledUserFormProps) {
+  const { submitHandler, initFormData } = props;
   const [errors, setErrors] = useState<Record<string, { message?: string }>>({});
   const { countries } = useCountriesStore();
-  const { user, setUser } = useUserStore();
   const picRef = useRef<HTMLInputElement>(null);
   const [isFormSuccess, setIsFormSuccess] = useState(false);
 
@@ -77,29 +76,27 @@ export function UncontrolledUserForm(props: { handleSubmit: () => void }) {
       country: formData.country,
     };
 
-    setUser({ user: user as User });
     setIsFormSuccess(true);
-    handleSubmit();
+    submitHandler({ user: user as User });
   };
 
   return (
     <form className="form" onSubmit={onSubmitHandler}>
-      <FormField id="user-name" name="name" label="Name" defaultValue={user?.name} errors={errors} />
+      <FormField id="user-name" name="name" label="Name" defaultValue={initFormData?.name} errors={errors} />
       <FormField
         id="user-age"
-        inputType={InputTyp.Number}
         name="age"
         label="Age"
-        defaultValue={user?.age ? `${user.age}` : ''}
+        defaultValue={initFormData?.age ? `${initFormData.age}` : ''}
         errors={errors}
       />
-      <FormField id="user-email" name="email" label="Email" defaultValue={user?.email} errors={errors} />
+      <FormField id="user-email" name="email" label="Email" defaultValue={initFormData?.email} errors={errors} />
       <FormField
         id="user-password"
         inputType={InputTyp.Password}
         name="password"
         label="Password"
-        defaultValue={user?.password}
+        defaultValue={initFormData?.password}
         errors={errors}
       />
       <FormField
@@ -107,14 +104,14 @@ export function UncontrolledUserForm(props: { handleSubmit: () => void }) {
         inputType={InputTyp.Password}
         name="confirmPassword"
         label="Confirm password"
-        defaultValue={user?.password}
+        defaultValue={initFormData?.password}
         errors={errors}
       />
       <FormFieldSelect
         id="gender"
         label="Gender"
         name="gender"
-        selectedValue={user?.gender}
+        selectedValue={initFormData?.gender}
         values={[Gender.Male, Gender.Female]}
         errors={errors}
       />
@@ -122,7 +119,7 @@ export function UncontrolledUserForm(props: { handleSubmit: () => void }) {
         id="country"
         name="country"
         label="Country"
-        selectedValue={user?.country}
+        selectedValue={initFormData?.country}
         values={[...countries]}
         errors={errors}
       />

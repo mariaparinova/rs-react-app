@@ -1,7 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserFormData, UserFormSchema } from '../userFormSchema.ts';
-import { useUserStore } from '../../../../store/user/userStore.ts';
 import { Gender, User } from '../../../../types/user.ts';
 import { Button, ButtonStyle, ButtonType } from '../../../Button/Button.tsx';
 import { FormFieldCheckbox } from '../../formFields/FormFieldCheckbox/FormFieldCheckbox.tsx';
@@ -10,29 +9,14 @@ import { FormFieldSelect } from '../../formFields/FormFieldSelect/FormFieldSelec
 import { useCountriesStore } from '../../../../store/countries/countries.ts';
 import { FormFieldFile } from '../../formFields/FormFieldFile/FormFieldFile.tsx';
 import { imgToBase64 } from '../../../../utils/imgToBase64.ts';
-import { Country } from '../../../../types/country.ts';
 import { FormField } from '../../formFields/FormField/FormField.tsx';
 import { InputTyp } from '../../formFields/FormField/FormField.ts';
 import { useState } from 'react';
 import clsx from 'clsx';
+import { ControlledUserFormProps } from './ControlledUserForm.ts';
 
-function getInitFormData(params: { user?: User }) {
-  const { user } = params;
-
-  return {
-    name: user?.name || '',
-    age: user?.age,
-    email: user?.email || '',
-    password: user?.password || '',
-    confirmPassword: user?.password || '',
-    gender: user?.gender,
-    country: (user?.country as Country) || '',
-  };
-}
-
-export function ControlledUserForm(props: { onSubmitHandler: () => void }) {
-  const { onSubmitHandler } = props;
-  const { user, setUser } = useUserStore();
+export function ControlledUserForm(props: ControlledUserFormProps) {
+  const { submitHandler, initFormData } = props;
   const { countries } = useCountriesStore();
   const [isFormSuccess, setIsFormSuccess] = useState(false);
 
@@ -42,7 +26,7 @@ export function ControlledUserForm(props: { onSubmitHandler: () => void }) {
     formState: { errors },
   } = useForm<UserFormData>({
     resolver: zodResolver(UserFormSchema),
-    defaultValues: getInitFormData({ user: user }),
+    defaultValues: initFormData,
     mode: 'all',
   });
 
@@ -67,22 +51,16 @@ export function ControlledUserForm(props: { onSubmitHandler: () => void }) {
       picture: picInBase64,
     };
 
-    setUser({ user });
     setIsFormSuccess(true);
-    onSubmitHandler();
+    submitHandler({ user: user as User });
   };
+
   const isBtnDisabled = Object.keys(errors).length > 0;
 
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)}>
       <FormField id="user-name" label="Name" {...register('name')} errors={errors} />
-      <FormField
-        id="user-age"
-        label="Age"
-        {...register('age', { valueAsNumber: true })}
-        errors={errors}
-        inputType={InputTyp.Number}
-      />
+      <FormField id="user-age" label="Age" {...register('age', { valueAsNumber: true })} errors={errors} />
       <FormField id="user-email" label="Email" {...register('email')} errors={errors} />
       <FormField
         id="user-password"
