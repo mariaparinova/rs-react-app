@@ -55,19 +55,19 @@ export function App() {
             style={ButtonStyle.Secondary}
             onClick={() => {
               setIsOpen(true);
-              setCurrentFormType(FormType.Uncontrolled);
+              setCurrentFormType(FormType.Controlled);
             }}
           >
-            open uncontrolled form
+            open controlled form
           </Button>
           <Button
             style={ButtonStyle.Secondary}
             onClick={() => {
               setIsOpen(true);
-              setCurrentFormType(FormType.Controlled);
+              setCurrentFormType(FormType.Uncontrolled);
             }}
           >
-            open controlled form
+            open uncontrolled form
           </Button>
         </div>
       </div>
