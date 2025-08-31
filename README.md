@@ -1,69 +1,71 @@
-# React + TypeScript + Vite
+React Dev Tools Profiler is used to measure the performance of the application:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 1 Interactions: user to type "pol" to input search country
 
-Currently, two official plugins are available:
+**BEFORE OPTIMIZATION**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Commit Duration: 4.3s
+- Render Duration: 26.2ms
+- Flamegraph: ![Flamegraph](./docs/images/before-optimization/flamegraph-country.png)
+- Ranked Chart: ![Ranked Chart](./docs/images/before-optimization/ranked-country.png)
 
-## Expanding the ESLint configuration
+**AFTER OPTIMIZATION**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Commit Duration: 4.2s
+- Render Duration: 24ms
+- Flamegraph: ![Flamegraph](./docs/images/after-optimization/flamegraph-country.png)
+- Ranked Chart: ![Ranked Chart](./docs/images/after-optimization/ranked-country.png)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### 2 Interactions: user change year to 2018
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+**BEFORE OPTIMIZATION**
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Commit Duration: 3.3s
+- Render Duration: 210.5ms
+- Flamegraph: ![Flamegraph](./docs/images/before-optimization/flamegraph-year.png)
+- Ranked Chart: ![Ranked Chart](./docs/images/before-optimization/ranked-year.png)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+**AFTER OPTIMIZATION**
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+- Commit Duration: 3.2s
+- Render Duration: 248.9ms
+- Flamegraph: ![Flamegraph](./docs/images/after-optimization/flamegraph-year.png)
+- Ranked Chart: ![Ranked Chart](./docs/images/after-optimization/ranked-year.png)
+
+---
+
+### 3 Interactions: user changes sort to sort by name desc
+
+**BEFORE OPTIMIZATION**
+
+- Commit Duration: 2.9s
+- Render Duration: 198.2ms
+- Flamegraph: ![Flamegraph](./docs/images/before-optimization/flamegraph-sort.png)
+- Ranked Chart: ![Ranked Chart](./docs/images/before-optimization/ranked-sort.png)
+
+**AFTER OPTIMIZATION**
+
+- Commit Duration: 1.8s
+- Render Duration: 239ms
+- Flamegraph: ![Flamegraph](./docs/images/after-optimization/flamegraph-sort.png)
+- Ranked Chart: ![Ranked Chart](./docs/images/after-optimization/ranked-sort.png)
+
+---
+
+### 4 Interactions: user adds one more column "gdp"
+
+**BEFORE OPTIMIZATION**
+
+- Commit Duration: 2.4s
+- Render Duration: 227.9ms
+- Flamegraph: ![Flamegraph](./docs/images/before-optimization/flamegraph-columns.png)
+- Ranked Chart: ![Ranked Chart](./docs/images/before-optimization/ranked-columns.png)
+
+**AFTER OPTIMIZATION**
+
+- Commit Duration: 1s
+- Render Duration: 49ms
+- Flamegraph: ![Flamegraph](./docs/images/after-optimization/flamegraph-columns.png)
+- Ranked Chart: ![Ranked Chart](./docs/images/after-optimization/ranked-columns.png)
