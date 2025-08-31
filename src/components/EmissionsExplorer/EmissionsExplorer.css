@@ -1,0 +1,30 @@
+.explorer {
+  .controls-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .control {
+      display: flex;
+      align-items: start;
+    }
+
+    .label {
+      min-width: 52px;
+    }
+
+    input[type='search'] {
+      height: 32px;
+    }
+  }
+
+  .table-explanation,
+  .button.add {
+    margin-top: 12px;
+  }
+
+  .table-explanation {
+    font-size: 14px;
+    color: var(--font-color-secondary);
+  }
+}

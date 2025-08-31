@@ -1,0 +1,10 @@
+.columns-manager {
+  .options {
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+
+  .button {
+    margin-top: 12px;
+  }
+}
