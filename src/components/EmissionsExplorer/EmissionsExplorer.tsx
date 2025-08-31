@@ -115,7 +115,7 @@ export function EmissionsExplorer() {
       </div>
       <EmissionsTable headers={tableHeaders} data={preparedData} />
       <Button className="add" style={ButtonStyle.Secondary} onClick={() => setIsModalOpen(true)}>
-        Add fields
+        configure table
       </Button>
       {renderTableExplanation()}
       <Modal isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)}>
