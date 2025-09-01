@@ -1,4 +1,4 @@
-import './Input.css';
+import styles from './Input.module.css';
 import { InputProps, InputType } from './Input.types.ts';
 
 export const Input = (props: InputProps) => {
@@ -10,7 +10,7 @@ export const Input = (props: InputProps) => {
       <input
         placeholder={placeholder}
         id={id}
-        className="input"
+        className={styles.input}
         type={type}
         onChange={onChange}
         value={value}

@@ -1,0 +1,26 @@
+{
+  "Header": {
+    "headerItemPets": "Pets",
+    "headerItemAbout": "About",
+    "theme": "Theme"
+  },
+  "MainPage": {
+    "clearCache": "clear cache",
+    "placeholder": "search by name",
+    "search": "search",
+    "selectedItems": "selected items",
+    "unselectAll": "unselect all",
+    "download": "download",
+    "paginationOf": "of"
+  },
+  "AboutPage": {
+    "mariaParinova": "Maria Parinova",
+    "aboutAuthor": "Junior Frontend Developer with solid web development fundamentals and English proficiency. Skilled in building responsive interfaces and single-page applications using React. Familiar with Jest testing and basic UX/UI design principles. Eager to grow professionally and contribute to a collaborative team.",
+    "p1": "This project is part of the react course from The Rolling Scopes School — an open, community-driven educational program for self-motivated learners. The course covers the fundamentals and advanced concepts of React, including hooks, routing, state management, testing, Next.js, and more. It’s fully free and open-source, with a focus on hands-on practice and teamwork.",
+    "p2": "React course",
+    "p3": "This page was created as part of my learning journey — and there’s more to come!"
+  },
+  "Pets": {
+    "removePetFromCache": "remove pet from cache"
+  }
+}

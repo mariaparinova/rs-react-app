@@ -1,7 +1,8 @@
-import './Pagination.css';
-import IconDropdown from '../../icons/dropdown.svg?react';
+import styles from './Pagination.module.css';
 import { Button } from '../Button/Button.tsx';
 import { ButtonStyle } from '../Button/Button.types.ts';
+import IconNavigation from '../../../public/icons/dropdown.svg';
+import { useTranslations } from 'next-intl';
 
 export interface PaginationProps {
   activePage: number;
@@ -15,37 +16,36 @@ export const Pagination = (props: PaginationProps) => {
   const { activePage, totalPages, previousPageClickHandler, nextPageClickHandler, isDisabled = false } = props;
   const isBtnToPreviousDisabled = activePage === 1 || !totalPages || activePage > totalPages || isDisabled;
   const isBtnToNextDisabled = activePage === totalPages || !totalPages || activePage > totalPages || isDisabled;
+  const t = useTranslations('MainPage');
 
   const renderPaginationText = () => {
     return (
-      <div className="pagination-content">
-        <span data-testid="active-page">{totalPages ? activePage : 0}</span>
-        of
-        <span data-testid="total-pages">{totalPages ? totalPages : 0}</span>
+      <div>
+        <span>{totalPages ? activePage : 0}</span>
+        {t('paginationOf')}
+        <span>{totalPages ? totalPages : 0}</span>
       </div>
     );
   };
 
   return (
-    <div className="pagination" data-testid="pagination">
+    <div className={styles.pagination}>
       <Button
-        className="to-previous-page"
+        className={styles.toPreviousPage}
         style={ButtonStyle.IconBtn}
         isDisabled={isBtnToPreviousDisabled}
         onClick={previousPageClickHandler}
-        data-testid="to-previous"
       >
-        <IconDropdown />
+        <IconNavigation />
       </Button>
       {totalPages && totalPages >= activePage && renderPaginationText()}
       <Button
-        className="to-next-page"
+        className={styles.toNextPage}
         style={ButtonStyle.IconBtn}
         isDisabled={isBtnToNextDisabled}
         onClick={nextPageClickHandler}
-        data-testid="to-next"
       >
-        <IconDropdown />
+        <IconNavigation />
       </Button>
     </div>
   );

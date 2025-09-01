@@ -1,0 +1,18 @@
+.petCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  width: 226px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-s);
+  transition: border-color 0.3s;
+  cursor: pointer;
+}
+
+.petCard:hover {
+  border-color: var(--color-accent-primary);
+  color: var(--color-accent-secondary);
+}

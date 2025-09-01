@@ -3,7 +3,7 @@ import { MouseEventHandler, ReactNode } from 'react';
 export enum ButtonStyle {
   Primary = 'primary',
   Secondary = 'secondary',
-  IconBtn = 'icon-btn',
+  IconBtn = 'iconBtn',
 }
 
 export enum ButtonType {
@@ -19,5 +19,4 @@ export interface ButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   className?: string;
   type?: ButtonType;
-  ['data-testid']?: string;
 }

@@ -1,4 +1,4 @@
-import './PetCard.css';
+import styles from './PetCard.module.css';
 import { Checkbox } from '../inputs/Checkbox/Checkbox.tsx';
 import { useCatalogStore } from '../../store/MainPageStore/MainPageStore.ts';
 import { PetCardProps } from './PetCard.types.ts';
@@ -18,7 +18,7 @@ export const PetCard = ({ pet, onClick }: PetCardProps) => {
   };
 
   return (
-    <div className="pet-card" onClick={onClickHandler} data-testid="pet-card">
+    <div className={styles.petCard} onClick={onClickHandler}>
       <span>{pet.name}</span>
       <Checkbox id={pet.id} isChecked={!!selectedPets[pet.id]} onChange={() => setSelectedPets(pet)} />
     </div>
