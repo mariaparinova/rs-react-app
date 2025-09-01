@@ -5,7 +5,7 @@ export default function NotFoundPage() {
     <div className="not-found-page">
       <div className="content-container">
         <h1>Not Found</h1>
-        <div>This page doesn’t exist</div>
+        <p>This page doesn’t exist</p>
         <Link href="/">to main page</Link>
       </div>
     </div>
